@@ -7,8 +7,11 @@ Coding Standards
     uses the coding standards described in this document to automatically fix
     your templates.
 
-When writing Twig templates, we recommend you to follow these official coding
-standards:
+When writing Twig templates, we recommend you to follow the official coding
+standards described in this document.
+
+Spacing
+-------
 
 * Put exactly one space after the start of a delimiter (``{{``, ``{%``,
   and ``{#``) and before the end of a delimiter (``}}``, ``%}``, and ``#}``):
@@ -88,12 +91,18 @@ standards:
      {{ [1, 2, 3] }}
      {{ {'foo': 'bar'} }}
 
+Variable Naming
+---------------
+
 * Use lower cased and underscored variable names:
 
   .. code-block:: twig
 
      {% set foo = 'foo' %}
      {% set foo_bar = 'foo' %}
+
+Indentation
+-----------
 
 * Indent your code inside tags (use the same indentation as the one used for
   the target language of the rendered template):
