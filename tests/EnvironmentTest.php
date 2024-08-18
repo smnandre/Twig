@@ -407,6 +407,16 @@ class EnvironmentTest extends TestCase
         $this->assertSame('dynamic', $parser->getTag());
     }
 
+    public function testVersionConstants()
+    {
+        $version = sprintf('%d.%d.%d', Environment::MAJOR_VERSION, Environment::MINOR_VERSION, Environment::RELEASE_VERSION);
+        if (Environment::EXTRA_VERSION) {
+            $this->assertSame($version.'-'.Environment::EXTRA_VERSION, Environment::VERSION);
+        } else {
+            $this->assertEquals($version, Environment::VERSION);
+        }
+    }
+
     /**
      * @group legacy
      *
