@@ -11,6 +11,10 @@
 
 namespace Twig\Extension;
 
+use ArrayAccess;
+use DateInterval;
+use DateTimeInterface;
+use DateTimeZone;
 use Traversable;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -106,7 +110,7 @@ final class CoreExtension extends AbstractExtension
      * @param string|null $format             The default date format string
      * @param string|null $dateIntervalFormat The default date interval format string
      */
-    public function setDateFormat($format = null, $dateIntervalFormat = null)
+    public function setDateFormat(?string $format = null, ?string $dateIntervalFormat = null): void
     {
         if (null !== $format) {
             $this->dateFormats[0] = $format;
@@ -120,9 +124,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Gets the default format to be used by the date filter.
      *
-     * @return array The default date format string and the default date interval format string
+     * @return list<string> The default date format string and the default date interval format string
      */
-    public function getDateFormat()
+    public function getDateFormat(): array
     {
         return $this->dateFormats;
     }
@@ -132,7 +136,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @param \DateTimeZone|string $timezone The default timezone string or a \DateTimeZone object
      */
-    public function setTimezone($timezone)
+    public function setTimezone(\DateTimeZone|string $timezone): void
     {
         $this->timezone = $timezone instanceof \DateTimeZone ? $timezone : new \DateTimeZone($timezone);
     }
@@ -142,7 +146,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @return \DateTimeZone The default timezone currently in use
      */
-    public function getTimezone()
+    public function getTimezone(): \DateTimeZone
     {
         if (null === $this->timezone) {
             $this->timezone = new \DateTimeZone(date_default_timezone_get());
@@ -158,7 +162,7 @@ final class CoreExtension extends AbstractExtension
      * @param string $decimalPoint the character(s) to use for the decimal point
      * @param string $thousandSep  the character(s) to use for the thousands separator
      */
-    public function setNumberFormat($decimal, $decimalPoint, $thousandSep)
+    public function setNumberFormat(int $decimal, string $decimalPoint, string $thousandSep): void
     {
         $this->numberFormat = [$decimal, $decimalPoint, $thousandSep];
     }
@@ -168,7 +172,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @return array The arguments for number_format()
      */
-    public function getNumberFormat()
+    public function getNumberFormat(): array
     {
         return $this->numberFormat;
     }
@@ -345,7 +349,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function cycle($values, $position): string
+    public static function cycle(array|ArrayAccess $values, int $position): string
     {
         if (!\is_array($values) && !$values instanceof \ArrayAccess) {
             return $values;
@@ -364,8 +368,8 @@ final class CoreExtension extends AbstractExtension
      * - a random character from a string
      * - a random integer between 0 and the integer parameter.
      *
-     * @param \Traversable|array|int|float|string $values The values to pick a random item from
-     * @param int|null                            $max    Maximum value used when $values is an int
+     * @param mixed $values   The values to pick a random item from
+     * @param int|null                            $max Maximum value used when $values is an int
      *
      * @return mixed A random value from the given sequence
      *
@@ -373,7 +377,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function random(string $charset, $values = null, $max = null)
+    public static function random(string $charset, mixed $values = null, ?int $max = null): mixed
     {
         if (null === $values) {
             return null === $max ? mt_rand() : mt_rand(0, (int) $max);
@@ -437,7 +441,7 @@ final class CoreExtension extends AbstractExtension
      * @param string|null                             $format   The target format, null to use the default
      * @param \DateTimeZone|string|false|null         $timezone The target timezone, null to use the default, false to leave unchanged
      */
-    public function formatDate($date, $format = null, $timezone = null): string
+    public function formatDate(\DateTimeInterface|\DateInterval|string $date, ?string $format = null, \DateTimeZone|string|false|null $timezone = null): string
     {
         if (null === $format) {
             $formats = $this->getDateFormat();
@@ -461,7 +465,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public function modifyDate($date, $modifier): \DateTimeImmutable
+    public function modifyDate(\DateTimeInterface|string $date, string $modifier): \DateTimeImmutable
     {
         return $this->convertDate($date, false)->modify($modifier);
     }
@@ -474,7 +478,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function sprintf($format, ...$values): string
+    public static function sprintf(?string $format, ...$values): string
     {
         return \sprintf($format ?? '', ...$values);
     }
@@ -482,7 +486,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function dateConverter(Environment $env, $date, $format = null, $timezone = null): string
+    public static function dateConverter(Environment $env, DateInterval|DateTimeInterface|string $date, ?string $format = null, DateTimeZone|string|false|null $timezone = null): string
     {
         return $env->getExtension(self::class)->formatDate($date, $format, $timezone);
     }
@@ -497,7 +501,7 @@ final class CoreExtension extends AbstractExtension
      * @param \DateTimeInterface|string|null  $date     A date or null to use the current time
      * @param \DateTimeZone|string|false|null $timezone The target timezone, null to use the default, false to leave unchanged
      */
-    public function convertDate($date = null, $timezone = null): \DateTimeImmutable
+    public function convertDate(\DateTimeInterface|string|null $date = null, \DateTimeZone|string|false|null $timezone = null): \DateTimeImmutable
     {
         // determine the timezone
         if (false !== $timezone) {
@@ -548,11 +552,11 @@ final class CoreExtension extends AbstractExtension
      * Replaces strings within a string.
      *
      * @param string|null        $str  String to replace in
-     * @param array|\Traversable $from Replace values
+     * @param iterable $from Replace values
      *
      * @internal
      */
-    public static function replace($str, $from): string
+    public static function replace(?string $str, mixed $from): string
     {
         if (!is_iterable($from)) {
             throw new RuntimeError(\sprintf('The "replace" filter expects a sequence/mapping or "Traversable" as replace values, got "%s".', get_debug_type($from)));
@@ -594,12 +598,12 @@ final class CoreExtension extends AbstractExtension
      * be used. Supplying any of the parameters will override the defaults set in the
      * environment object.
      *
-     * @param mixed       $number       A float/int/string of the number to format
+     * @param scalar       $number       A float/int/string of the number to format
      * @param int|null    $decimal      the number of decimal points to display
      * @param string|null $decimalPoint the character(s) to use for the decimal point
      * @param string|null $thousandSep  the character(s) to use for the thousands separator
      */
-    public function formatNumber(float|int|string $number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null): string
+    public function formatNumber(float|int|string|null $number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null): string
     {
         $defaults = $this->getNumberFormat();
         if (null === $decimal) {
@@ -673,7 +677,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function slice(string $charset, mixed $item, int $start, int $length, bool $preserveKeys = false): mixed
+    public static function slice(string $charset, mixed $item, int $start = 0, ?int $length = null, bool $preserveKeys = false): mixed
     {
         if ($item instanceof \Traversable) {
             while ($item instanceof \IteratorAggregate) {
@@ -744,13 +748,13 @@ final class CoreExtension extends AbstractExtension
      *  {{ [1, 2, 3]|join }}
      *  {# returns 123 #}
      *
-     * @param array       $value An array
+     * @param mixed       $value An array
      * @param string      $glue  The separator
      * @param string|null $and   The separator for the last pair
      *
      * @internal
      */
-    public static function join(array $value, string $glue = '', ?string $and = null): string
+    public static function join(mixed $value, string $glue = '', ?string $and = null): string
     {
         if (!is_iterable($value)) {
             $value = (array) $value;
@@ -841,6 +845,8 @@ final class CoreExtension extends AbstractExtension
      *  {% for key in array|keys %}
      *      {# ... #}
      *  {% endfor %}
+     *
+     * @return list<int|string> The keys of the array
      *
      * @internal
      */
@@ -1475,13 +1481,13 @@ final class CoreExtension extends AbstractExtension
     /**
      * Batches item.
      *
-     * @param array $items An array of items
+     * @param mixed $items An array of items
      * @param int   $size  The size of the batch
      * @param mixed $fill  A value used to fill missing items
      *
      * @internal
      */
-    public static function batch(iterable $items, int $size, mixed $fill = null, bool $preserveKeys = true): array
+    public static function batch(mixed $items, string|int|float|null $size, mixed $fill = null, bool $preserveKeys = true): array
     {
         if (!is_iterable($items)) {
             throw new RuntimeError(\sprintf('The "batch" filter expects a sequence/mapping or "Traversable", got "%s".', get_debug_type($items)));
@@ -1716,7 +1722,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function column($array, $name, $index = null): array
+    public static function column(iterable $array, int|string $name, int|string|null $index = null): array
     {
         if ($array instanceof \Traversable) {
             $array = iterator_to_array($array);
