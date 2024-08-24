@@ -11,6 +11,7 @@
 
 namespace Twig\Extension;
 
+use Traversable;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -571,7 +572,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function round($value, $precision = 0, $method = 'common')
+    public static function round(int|float|string|null $value, int|float $precision = 0, string $method = 'common'): int|float
     {
         $value = (float) $value;
 
@@ -589,7 +590,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * Formats a number.
      *
-     * All of the formatting options can be left null, in that case the defaults will
+     * All the formatting options can be left null, in that case the defaults will
      * be used. Supplying any of the parameters will override the defaults set in the
      * environment object.
      *
@@ -598,7 +599,7 @@ final class CoreExtension extends AbstractExtension
      * @param string|null $decimalPoint the character(s) to use for the decimal point
      * @param string|null $thousandSep  the character(s) to use for the thousands separator
      */
-    public function formatNumber($number, $decimal = null, $decimalPoint = null, $thousandSep = null): string
+    public function formatNumber(float|int|string $number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null): string
     {
         $defaults = $this->getNumberFormat();
         if (null === $decimal) {
@@ -623,7 +624,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function urlencode($url): string
+    public static function urlencode(string|array|null $url): string
     {
         if (\is_array($url)) {
             return http_build_query($url, '', '&', \PHP_QUERY_RFC3986);
@@ -672,7 +673,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function slice(string $charset, $item, $start, $length = null, $preserveKeys = false)
+    public static function slice(string $charset, mixed $item, int $start, int $length, bool $preserveKeys = false): mixed
     {
         if ($item instanceof \Traversable) {
             while ($item instanceof \IteratorAggregate) {
@@ -706,7 +707,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function first(string $charset, $item)
+    public static function first(string $charset, mixed $item): mixed
     {
         $elements = self::slice($charset, $item, 0, 1, false);
 
@@ -722,7 +723,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function last(string $charset, $item)
+    public static function last(string $charset, mixed $item): mixed
     {
         $elements = self::slice($charset, $item, -1, 1, false);
 
@@ -749,7 +750,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function join($value, $glue = '', $and = null): string
+    public static function join(array $value, string $glue = '', ?string $and = null): string
     {
         if (!is_iterable($value)) {
             $value = (array) $value;
@@ -791,9 +792,11 @@ final class CoreExtension extends AbstractExtension
      * @param string      $delimiter The delimiter
      * @param int|null    $limit     The limit
      *
+     * @return list<string> The split string as an array
+     *
      * @internal
      */
-    public static function split(string $charset, $value, $delimiter, $limit = null): array
+    public static function split(string $charset, ?string $value, string $delimiter, ?int $limit = null): array
     {
         $value = $value ?? '';
 
@@ -821,7 +824,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function default($value, $default = '')
+    public static function default(mixed $value, $default = ''): mixed
     {
         if (self::testEmpty($value)) {
             return $default;
@@ -841,7 +844,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function keys($array): array
+    public static function keys(iterable|null $array): array
     {
         if ($array instanceof \Traversable) {
             while ($array instanceof \IteratorAggregate) {
@@ -876,14 +879,14 @@ final class CoreExtension extends AbstractExtension
     /**
      * Reverses a variable.
      *
-     * @param array|\Traversable|string|null $item         An array, a \Traversable instance, or a string
+     * @param string|iterable|null $item                   An array, a \Traversable instance, or a string
      * @param bool                           $preserveKeys Whether to preserve key or not
      *
      * @return mixed The reversed input
      *
      * @internal
      */
-    public static function reverse(string $charset, $item, $preserveKeys = false)
+    public static function reverse(string $charset, string|null|iterable $item, bool $preserveKeys = false): mixed
     {
         if ($item instanceof \Traversable) {
             return array_reverse(iterator_to_array($item), $preserveKeys);
@@ -914,13 +917,9 @@ final class CoreExtension extends AbstractExtension
      * Shuffles an array, a \Traversable instance, or a string.
      * The function does not preserve keys.
      *
-     * @param array|\Traversable|string|null $item
-     *
-     * @return mixed
-     *
      * @internal
      */
-    public static function shuffle(string $charset, $item)
+    public static function shuffle(string $charset, iterable|string|null $item): mixed
     {
         if (\is_string($item)) {
             if ('UTF-8' !== $charset) {
@@ -949,11 +948,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Sorts an array.
      *
-     * @param array|\Traversable $array
-     *
      * @internal
      */
-    public static function sort(Environment $env, $array, $arrow = null): array
+    public static function sort(Environment $env, iterable $array, $arrow = null): array
     {
         if ($array instanceof \Traversable) {
             $array = iterator_to_array($array);
@@ -975,7 +972,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function inFilter($value, $compare)
+    public static function inFilter(mixed $value, mixed $compare): bool
     {
         if ($value instanceof Markup) {
             $value = (string) $value;
@@ -1027,7 +1024,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function compare($a, $b)
+    public static function compare($a, $b): int|float|string
     {
         // int <=> string
         if (\is_int($a) && \is_string($b)) {
@@ -1109,7 +1106,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function trim($string, $characterMask = null, $side = 'both'): string
+    public static function trim(?string $string, ?string $characterMask = null, string $side = 'both'): string
     {
         if (null === $characterMask) {
             $characterMask = " \t\n\r\0\x0B";
@@ -1126,11 +1123,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Inserts HTML line breaks before all newlines in a string.
      *
-     * @param string|null $string
-     *
      * @internal
      */
-    public static function nl2br($string): string
+    public static function nl2br(?string $string): string
     {
         return nl2br($string ?? '');
     }
@@ -1138,23 +1133,17 @@ final class CoreExtension extends AbstractExtension
     /**
      * Removes whitespaces between HTML tags.
      *
-     * @param string|null $content
-     *
      * @internal
      */
-    public static function spaceless($content): string
+    public static function spaceless(?string $content): string
     {
         return trim(preg_replace('/>\s+</', '><', $content ?? ''));
     }
 
     /**
-     * @param string|null $string
-     * @param string      $to
-     * @param string      $from
-     *
      * @internal
      */
-    public static function convertEncoding($string, $to, $from): string
+    public static function convertEncoding(?string $string, string $to, string $from): string
     {
         if (!\function_exists('iconv')) {
             throw new RuntimeError('Unable to convert encoding: required function iconv() does not exist. You should install ext-iconv or symfony/polyfill-iconv.');
@@ -1166,11 +1155,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Returns the length of a variable.
      *
-     * @param mixed $thing A variable
-     *
      * @internal
      */
-    public static function length(string $charset, $thing): int
+    public static function length(string $charset, mixed $thing): int
     {
         if (null === $thing) {
             return 0;
@@ -1198,11 +1185,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Converts a string to uppercase.
      *
-     * @param string|null $string A string
-     *
      * @internal
      */
-    public static function upper(string $charset, $string): string
+    public static function upper(string $charset, ?string $string): string
     {
         return mb_strtoupper($string ?? '', $charset);
     }
@@ -1210,11 +1195,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Converts a string to lowercase.
      *
-     * @param string|null $string A string
-     *
      * @internal
      */
-    public static function lower(string $charset, $string): string
+    public static function lower(string $charset, ?string $string): string
     {
         return mb_strtolower($string ?? '', $charset);
     }
@@ -1222,12 +1205,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Strips HTML and PHP tags from a string.
      *
-     * @param string|null          $string
-     * @param string[]|string|null $allowable_tags
-     *
      * @internal
      */
-    public static function striptags($string, $allowable_tags = null): string
+    public static function striptags(?string $string, array|string|null $allowable_tags = null): string
     {
         return strip_tags($string ?? '', $allowable_tags);
     }
@@ -1235,11 +1215,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Returns a titlecased string.
      *
-     * @param string|null $string A string
-     *
      * @internal
      */
-    public static function titleCase(string $charset, $string): string
+    public static function titleCase(string $charset, ?string $string): string
     {
         return mb_convert_case($string ?? '', \MB_CASE_TITLE, $charset);
     }
@@ -1247,11 +1225,9 @@ final class CoreExtension extends AbstractExtension
     /**
      * Returns a capitalized string.
      *
-     * @param string|null $string A string
-     *
      * @internal
      */
-    public static function capitalize(string $charset, $string): string
+    public static function capitalize(string $charset, ?string $string): string
     {
         return mb_strtoupper(mb_substr($string ?? '', 0, 1, $charset), $charset).mb_strtolower(mb_substr($string ?? '', 1, null, $charset), $charset);
     }
@@ -1278,7 +1254,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function toArray($seq, $preserveKeys = true)
+    public static function toArray(mixed $seq, bool $preserveKeys = true): array
     {
         if ($seq instanceof \Traversable) {
             return iterator_to_array($seq, $preserveKeys);
@@ -1299,11 +1275,9 @@ final class CoreExtension extends AbstractExtension
      *        {# ... #}
      *    {% endif %}
      *
-     * @param mixed $value A variable
-     *
      * @internal
      */
-    public static function testEmpty($value): bool
+    public static function testEmpty(mixed $value): bool
     {
         if ($value instanceof \Countable) {
             return 0 === \count($value);
@@ -1328,11 +1302,9 @@ final class CoreExtension extends AbstractExtension
      *        {# ... #}
      *    {% endif %}
      *
-     * @param mixed $value
-     *
      * @internal
      */
-    public static function testSequence($value): bool
+    public static function testSequence(mixed $value): bool
     {
         if ($value instanceof \ArrayObject) {
             $value = $value->getArrayCopy();
@@ -1353,11 +1325,9 @@ final class CoreExtension extends AbstractExtension
      *        {# ... #}
      *    {% endif %}
      *
-     * @param mixed $value
-     *
      * @internal
      */
-    public static function testMapping($value): bool
+    public static function testMapping(mixed $value): bool
     {
         if ($value instanceof \ArrayObject) {
             $value = $value->getArrayCopy();
@@ -1382,7 +1352,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function include(Environment $env, $context, $template, $variables = [], $withContext = true, $ignoreMissing = false, $sandboxed = false): string
+    public static function include(Environment $env, array $context, string|array|TemplateWrapper $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false): string
     {
         $alreadySandboxed = false;
         $sandbox = null;
@@ -1430,7 +1400,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function source(Environment $env, $name, $ignoreMissing = false): string
+    public static function source(Environment $env, string $name, bool $ignoreMissing = false): string
     {
         $loader = $env->getLoader();
         try {
@@ -1477,7 +1447,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function constant($constant, $object = null, bool $checkDefined = false)
+    public static function constant($constant, ?object $object = null, bool $checkDefined = false): mixed
     {
         if (null !== $object) {
             if ('class' === $constant) {
@@ -1511,7 +1481,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function batch($items, $size, $fill = null, $preserveKeys = true): array
+    public static function batch(iterable $items, int $size, mixed $fill = null, bool $preserveKeys = true): array
     {
         if (!is_iterable($items)) {
             throw new RuntimeError(\sprintf('The "batch" filter expects a sequence/mapping or "Traversable", got "%s".', get_debug_type($items)));
@@ -1550,10 +1520,10 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function getAttribute(Environment $env, Source $source, $object, $item, array $arguments = [], $type = /* Template::ANY_CALL */ 'any', $isDefinedTest = false, $ignoreStrictCheck = false, $sandboxed = false, int $lineno = -1)
+    public static function getAttribute(Environment $env, Source $source, $object, mixed $item, array $arguments = [], string $type = Template::ANY_CALL, bool $isDefinedTest = false, bool $ignoreStrictCheck = false, bool $sandboxed = false, int $lineno = -1)
     {
         // array
-        if (/* Template::METHOD_CALL */ 'method' !== $type) {
+        if (Template::METHOD_CALL !== $type) {
             $arrayItem = \is_bool($item) || \is_float($item) ? (int) $item : $item;
 
             if (((\is_array($object) || $object instanceof \ArrayObject) && (isset($object[$arrayItem]) || \array_key_exists($arrayItem, (array) $object)))
@@ -1566,7 +1536,7 @@ final class CoreExtension extends AbstractExtension
                 return $object[$arrayItem];
             }
 
-            if (/* Template::ARRAY_CALL */ 'array' === $type || !\is_object($object)) {
+            if (Template::ARRAY_CALL === $type || !\is_object($object)) {
                 if ($isDefinedTest) {
                     return false;
                 }
