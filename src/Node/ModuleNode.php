@@ -436,6 +436,7 @@ final class ModuleNode extends Node
         $compiler
             ->write("/**\n")
             ->write(" * @codeCoverageIgnore\n")
+            ->write(" * @return array<int, int>\n")
             ->write(" */\n")
             ->write("public function getDebugInfo(): array\n", "{\n")
             ->indent()
