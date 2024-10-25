@@ -499,7 +499,7 @@ class ExpressionParser
     public function getFunctionNode($name, $line)
     {
         if (null !== $alias = $this->parser->getImportedSymbol('function', $name)) {
-            return new MacroReferenceExpression(new TemplateVariable($alias['node']->getAttribute('name'), $line), $alias['name'], $this->createArguments($line), $line);
+            return new MacroReferenceExpression($alias['node']->getNode('var'), $alias['name'], $this->createArguments($line), $line);
         }
 
         $args = $this->parseOnlyArguments();
@@ -662,7 +662,7 @@ class ExpressionParser
         }
 
         if ('defined' === $test->getName() && $node instanceof ContextVariable && null !== $alias = $this->parser->getImportedSymbol('function', $node->getAttribute('name'))) {
-            $node = new MacroReferenceExpression(new TemplateVariable($alias['node']->getAttribute('name'), $node->getTemplateLine()), $alias['name'], new ArrayExpression([], $node->getTemplateLine()), $node->getTemplateLine());
+            $node = new MacroReferenceExpression($alias['node']->getNode('var'), $alias['name'], new ArrayExpression([], $node->getTemplateLine()), $node->getTemplateLine());
         }
 
         return new ($test->getNodeClass())($node, $test, $arguments, $this->parser->getCurrentToken()->getLine());
@@ -841,7 +841,7 @@ class ExpressionParser
             $node instanceof ContextVariable
             &&
             (
-                null !== $this->parser->getImportedSymbol('template', (new TemplateVariable($node->getAttribute('name'), $node->getTemplateLine()))->getAttribute('name'))
+                null !== $this->parser->getImportedSymbol('template', $node->getAttribute('name'))
                 ||
                 '_self' === $node->getAttribute('name') && $attribute instanceof ConstantExpression
             )

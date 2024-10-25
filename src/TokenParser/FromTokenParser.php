@@ -13,6 +13,7 @@ namespace Twig\TokenParser;
 
 use Twig\Node\Expression\Variable\AssignContextVariable;
 use Twig\Node\Expression\Variable\AssignTemplateVariable;
+use Twig\Node\Expression\Variable\TemplateVariable;
 use Twig\Node\ImportNode;
 use Twig\Node\Node;
 use Twig\Token;
@@ -51,7 +52,7 @@ final class FromTokenParser extends AbstractTokenParser
 
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        $internalRef = new AssignTemplateVariable(null, $token->getLine(), $this->parser->isMainScope());
+        $internalRef = new AssignTemplateVariable(new TemplateVariable(null, $token->getLine()), $this->parser->isMainScope());
         $node = new ImportNode($macro, $internalRef, $token->getLine());
 
         foreach ($targets as $name => $alias) {

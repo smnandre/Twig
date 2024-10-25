@@ -15,7 +15,7 @@ use Twig\Compiler;
 use Twig\Error\SyntaxError;
 use Twig\Node\Expression\AbstractExpression;
 
-class TemplateVariable extends AbstractExpression
+final class TemplateVariable extends AbstractExpression
 {
     public const RESERVED_NAMES = ['varargs', 'context', 'macros', 'blocks', 'this'];
 
@@ -35,18 +35,25 @@ class TemplateVariable extends AbstractExpression
         parent::__construct([], ['name' => $name], $lineno);
     }
 
-    public function compile(Compiler $compiler): void
+    public function getName(Compiler $compiler): string
     {
         if (null === $this->getAttribute('name')) {
-            $this->setAttribute('name', \sprintf('_l%d', $compiler->getVarName()));
+            $this->setAttribute('name', $compiler->getVarName());
         }
 
-        if ('_self' === $this->getAttribute('name')) {
+        return $this->getAttribute('name');
+    }
+
+    public function compile(Compiler $compiler): void
+    {
+        $name = $this->getName($compiler);
+
+        if ('_self' === $name) {
             $compiler->raw('$this');
         } else {
             $compiler
                 ->raw('$macros[')
-                ->string($this->getAttribute('name'))
+                ->string($name)
                 ->raw(']')
             ;
         }
