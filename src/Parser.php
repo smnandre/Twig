@@ -18,6 +18,7 @@ use Twig\Node\BlockReferenceNode;
 use Twig\Node\BodyNode;
 use Twig\Node\EmptyNode;
 use Twig\Node\Expression\AbstractExpression;
+use Twig\Node\Expression\Variable\AssignTemplateVariable;
 use Twig\Node\Expression\Variable\TemplateVariable;
 use Twig\Node\MacroNode;
 use Twig\Node\ModuleNode;
@@ -295,12 +296,12 @@ class Parser
         $this->embeddedTemplates[] = $template;
     }
 
-    public function addImportedSymbol(string $type, string $alias, ?string $name = null, AbstractExpression|TemplateVariable|null $internalRef = null): void
+    public function addImportedSymbol(string $type, string $alias, ?string $name = null, AbstractExpression|AssignTemplateVariable|null $internalRef = null): void
     {
-        if ($internalRef && !$internalRef instanceof TemplateVariable) {
-            trigger_deprecation('twig/twig', '3.15', 'Not passing a "%s" instance as an internal reference is deprecated ("%s" given).', __METHOD__, TemplateVariable::class, $internalRef::class);
+        if ($internalRef && !$internalRef instanceof AssignTemplateVariable) {
+            trigger_deprecation('twig/twig', '3.15', 'Not passing a "%s" instance as an internal reference is deprecated ("%s" given).', __METHOD__, AssignTemplateVariable::class, $internalRef::class);
 
-            $internalRef = new TemplateVariable($internalRef->getAttribute('name'), $internalRef->getTemplateLine());
+            $internalRef = new AssignTemplateVariable(new TemplateVariable($internalRef->getAttribute('name'), $internalRef->getTemplateLine()), $internalRef->getAttribute('global'));
         }
 
         $this->importedSymbols[0][$type][$alias] = ['name' => $name, 'node' => $internalRef];

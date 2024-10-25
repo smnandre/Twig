@@ -16,18 +16,25 @@ use Twig\Node\Expression\TempNameExpression;
 
 class TemplateVariable extends TempNameExpression
 {
-    public function compile(Compiler $compiler): void
+    public function getName(Compiler $compiler): string
     {
         if (null === $this->getAttribute('name')) {
-            $this->setAttribute('name', \sprintf('_l%d', $compiler->getVarName()));
+            $this->setAttribute('name', $compiler->getVarName());
         }
 
-        if ('_self' === $this->getAttribute('name')) {
+        return $this->getAttribute('name');
+    }
+
+    public function compile(Compiler $compiler): void
+    {
+        $name = $this->getName($compiler);
+
+        if ('_self' === $name) {
             $compiler->raw('$this');
         } else {
             $compiler
                 ->raw('$macros[')
-                ->string($this->getAttribute('name'))
+                ->string($name)
                 ->raw(']')
             ;
         }
