@@ -318,6 +318,7 @@ abstract class Template
 
     /**
      * @internal
+     * @return $this
      */
     public function unwrap(): self
     {
