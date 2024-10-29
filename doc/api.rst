@@ -486,6 +486,15 @@ able to call the ``getTitle()`` and ``getBody()`` methods on ``Article``
 objects, and the ``title`` and ``body`` public properties. Everything else
 won't be allowed and will generate a ``\Twig\Sandbox\SecurityError`` exception.
 
+.. note::
+
+    As of Twig 1.14.1 (and on Twig 3.11.2), if the ``Article`` class implements
+    the ``ArrayAccess`` interface, the templates will only be able to access
+    the ``title`` and ``body`` attributes.
+
+    Note that native array-like classes (like ``ArrayObject``) are always
+    allowed, you don't need to configure them.
+
 .. caution::
 
     The ``extends`` and ``use`` tags are always allowed in a sandboxed
