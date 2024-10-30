@@ -766,9 +766,9 @@ final class CoreExtension extends AbstractExtension
      *  {{ [1, 2, 3]|join }}
      *  {# returns 123 #}
      *
-     * @param array       $value An array
-     * @param string      $glue  The separator
-     * @param string|null $and   The separator for the last pair
+     * @param iterable|array|string|float|int|bool|null  $value An array
+     * @param string                                     $glue  The separator
+     * @param string|null                                $and   The separator for the last pair
      *
      * @internal
      */
