@@ -344,7 +344,7 @@ final class CoreExtension extends AbstractExtension
      * Cycles over a sequence.
      *
      * @param array|\ArrayAccess $values   A non-empty sequence of values
-     * @param positive-int       $position The position of the value to return in the cycle
+     * @param int<0, max>        $position The position of the value to return in the cycle
      *
      * @return mixed The value at the given position in the sequence, wrapping around as needed
      *
