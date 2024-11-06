@@ -40,6 +40,9 @@ class SandboxTest extends TestCase
             'obj' => new FooObject(),
             'arr' => ['obj' => new FooObject()],
             'child_obj' => new ChildClass(),
+            'some_array' => [5, 6, 7, new FooObject()],
+            'array_like' => new ArrayLikeObject(),
+            'magic' => new MagicObject(),
         ];
 
         self::$templates = [
@@ -63,6 +66,7 @@ class SandboxTest extends TestCase
             '1_childobj_parentmethod' => '{{ child_obj.ParentMethod() }}',
             '1_childobj_childmethod' => '{{ child_obj.ChildMethod() }}',
             '1_empty' => '',
+            '1_array_like' => '{{ array_like["foo"] }}',
         ];
     }
 
@@ -115,15 +119,31 @@ class SandboxTest extends TestCase
         $this->assertEquals('FOO', $twig->load('1_basic')->render(self::$params), 'Sandbox does nothing if it is disabled globally');
     }
 
-    public function testSandboxUnallowedMethodAccessor()
+    public function testSandboxUnallowedPropertyAccessor()
     {
         $twig = $this->getEnvironment(true, [], self::$templates);
         try {
-            $twig->load('1_basic1')->render(self::$params);
+            $twig->load('1_basic1')->render(['obj' => new MagicObject()]);
             $this->fail('Sandbox throws a SecurityError exception if an unallowed method is called');
-        } catch (SecurityNotAllowedMethodError $e) {
-            $this->assertEquals(FooObject::class, $e->getClassName(), 'Exception should be raised on the "Twig\Tests\Extension\FooObject" class');
-            $this->assertEquals('foo', $e->getMethodName(), 'Exception should be raised on the "foo" method');
+        } catch (SecurityNotAllowedPropertyError $e) {
+            $this->assertEquals(MagicObject::class, $e->getClassName(), 'Exception should be raised on the "Twig\Tests\Extension\MagicObject" class');
+            $this->assertEquals('foo', $e->getPropertyName(), 'Exception should be raised on the "foo" property');
+        }
+    }
+
+    public function testSandboxUnallowedArrayIndexAccessor()
+    {
+        $twig = $this->getEnvironment(true, [], self::$templates);
+
+        // ArrayObject and other internal array-like classes are exempted from sandbox restrictions
+        $this->assertSame('bar', $twig->load('1_array_like')->render(['array_like' => new \ArrayObject(['foo' => 'bar'])]));
+
+        try {
+            $twig->load('1_array_like')->render(self::$params);
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed method is called');
+        } catch (SecurityNotAllowedPropertyError $e) {
+            $this->assertEquals(ArrayLikeObject::class, $e->getClassName(), 'Exception should be raised on the "Twig\Tests\Extension\ArrayLikeObject" class');
+            $this->assertEquals('foo', $e->getPropertyName(), 'Exception should be raised on the "foo" property');
         }
     }
 
@@ -219,10 +239,10 @@ class SandboxTest extends TestCase
     #[DataProvider('getSandboxUnallowedToStringTests')]
     public function testSandboxUnallowedToString($template)
     {
-        $twig = $this->getEnvironment(true, [], ['index' => $template], [], ['upper'], [FooObject::class => 'getAnotherFooObject'], [], ['random']);
+        $twig = $this->getEnvironment(true, [], ['index' => $template], [], ['upper', 'join', 'replace'], [FooObject::class => 'getAnotherFooObject'], [], ['random']);
         try {
             $twig->load('index')->render(self::$params);
-            $this->fail('Sandbox throws a SecurityError exception if an unallowed method (__toString()) is called in the template');
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed method "__toString()" method is called in the template');
         } catch (SecurityNotAllowedMethodError $e) {
             $this->assertEquals(FooObject::class, $e->getClassName(), 'Exception should be raised on the "Twig\Tests\Extension\FooObject" class');
             $this->assertEquals('__tostring', $e->getMethodName(), 'Exception should be raised on the "__toString" method');
@@ -245,6 +265,16 @@ class SandboxTest extends TestCase
             'object_chain_and_function' => ['{{ random(obj.anotherFooObject) }}'],
             'concat' => ['{{ obj ~ "" }}'],
             'concat_again' => ['{{ "" ~ obj }}'],
+            'object_in_arguments' => ['{{ "__toString"|replace({"__toString": obj}) }}'],
+            'object_in_array' => ['{{ [12, "foo", obj]|join(", ") }}'],
+            'object_in_array_var' => ['{{ some_array|join(", ") }}'],
+            'object_in_array_nested' => ['{{ [12, "foo", [12, "foo", obj]]|join(", ") }}'],
+            'object_in_array_var_nested' => ['{{ [12, "foo", some_array]|join(", ") }}'],
+            'object_in_array_dynamic_key' => ['{{ {(obj): "foo"}|join(", ") }}'],
+            'object_in_array_dynamic_key_nested' => ['{{ {"foo": { (obj): "foo" }}|join(", ") }}'],
+            'context' => ['{{ _context|join(", ") }}'],
+            'spread_array_operator' => ['{{ [1, 2, ...[5, 6, 7, obj]]|join(",") }}'],
+            'spread_array_operator_var' => ['{{ [1, 2, ...some_array]|join(",") }}'],
         ];
     }
 
@@ -260,7 +290,8 @@ class SandboxTest extends TestCase
         return [
             'constant_test' => ['{{ obj is constant("PHP_INT_MAX") }}', ''],
             'set_object' => ['{% set a = obj.anotherFooObject %}{{ a.foo }}', 'foo'],
-            'is_defined' => ['{{ obj.anotherFooObject is defined }}', '1'],
+            'is_defined1' => ['{{ obj.anotherFooObject is defined }}', '1'],
+            'is_defined2' => ['{{ magic.foo is defined }}', ''],
             'is_null' => ['{{ obj is null }}', ''],
             'is_sameas' => ['{{ obj is same as(obj) }}', '1'],
             'is_sameas_no_brackets' => ['{{ obj is same as obj }}', '1'],
@@ -555,5 +586,39 @@ class FooObject
     public function getAnotherFooObject()
     {
         return new self();
+    }
+}
+
+class ArrayLikeObject extends \ArrayObject
+{
+    public function offsetExists($offset): bool
+    {
+        throw new \BadMethodCallException('Should not be called');
+    }
+
+    public function offsetGet($offset): mixed
+    {
+        throw new \BadMethodCallException('Should not be called');
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+    }
+
+    public function offsetUnset($offset): void
+    {
+    }
+}
+
+class MagicObject
+{
+    public function __get($name): mixed
+    {
+        throw new \BadMethodCallException('Should not be called');
+    }
+
+    public function __isset($name): bool
+    {
+        throw new \BadMethodCallException('Should not be called');
     }
 }

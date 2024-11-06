@@ -117,7 +117,6 @@ class __TwigTemplate_%x extends Template
 
     /**
      * @codeCoverageIgnore
-     * @return array<int, int>
      */
     public function getDebugInfo(): array
     {
@@ -208,7 +207,6 @@ class __TwigTemplate_%x extends Template
 
     /**
      * @codeCoverageIgnore
-     * @return array<int, int>
      */
     public function getDebugInfo(): array
     {
@@ -303,7 +301,6 @@ class __TwigTemplate_%x extends Template
 
     /**
      * @codeCoverageIgnore
-     * @return array<int, int>
      */
     public function getDebugInfo(): array
     {
