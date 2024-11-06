@@ -67,7 +67,7 @@ class GetAttrExpression extends AbstractExpression
                 ->raw(') || ')
                 ->raw($var)
                 ->raw(' instanceof ArrayAccess && in_array(')
-                ->raw($var.'::class')
+                ->raw('get_class('.$var.')')
                 ->raw(', CoreExtension::ARRAY_LIKE_CLASSES, true) ? (')
                 ->raw($var)
                 ->raw('[')

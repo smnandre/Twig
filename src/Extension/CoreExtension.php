@@ -1571,7 +1571,7 @@ final class CoreExtension extends AbstractExtension
         if (/* Template::METHOD_CALL */ 'method' !== $type) {
             $arrayItem = \is_bool($item) || \is_float($item) ? (int) $item : $item;
 
-            if ($sandboxed && $object instanceof \ArrayAccess && !\in_array($object::class, self::ARRAY_LIKE_CLASSES, true)) {
+            if ($sandboxed && $object instanceof \ArrayAccess && !\in_array(get_class($object), self::ARRAY_LIKE_CLASSES, true)) {
                 try {
                     $env->getExtension(SandboxExtension::class)->checkPropertyAllowed($object, $arrayItem, $lineno, $source);
                 } catch (SecurityNotAllowedPropertyError $propertyNotAllowedError) {

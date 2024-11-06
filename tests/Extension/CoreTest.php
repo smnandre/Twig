@@ -325,7 +325,7 @@ class CoreTest extends TestCase
             'index' => '{{ include("included", sandboxed=true) }}',
             'included' => '{{ "included"|e }}',
         ]));
-        $policy = new SecurityPolicy(allowedFunctions: ['include']);
+        $policy = new SecurityPolicy([], [], [], [], ['include']);
         $sandbox = new SandboxExtension($policy, false);
         $twig->addExtension($sandbox);
 
@@ -340,7 +340,7 @@ class CoreTest extends TestCase
             'index' => '{{ include("included", sandboxed=true) }}',
             'included' => '{{ "included"|e }}',
         ]));
-        $policy = new SecurityPolicy(allowedFunctions: ['include']);
+        $policy = new SecurityPolicy([], [], [], [], ['include']);
         $sandbox = new SandboxExtension($policy, false);
         $twig->addExtension($sandbox);
 
