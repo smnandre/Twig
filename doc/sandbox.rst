@@ -46,12 +46,6 @@ won't be allowed and will generate a ``\Twig\Sandbox\SecurityError`` exception.
     Note that native array-like classes (like ``ArrayObject``) are always
     allowed, you don't need to configure them.
 
-.. caution::
-
-    The ``extends`` and ``use`` tags are always allowed in a sandboxed
-    template. That behavior will change in 4.0 where these tags will need to be
-    explicitly allowed like any other tag.
-
 Enabling the Sandbox
 --------------------
 

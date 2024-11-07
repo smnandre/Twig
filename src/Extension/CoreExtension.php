@@ -101,8 +101,6 @@ use Twig\Util\CallableArgumentsExtractor;
 
 final class CoreExtension extends AbstractExtension
 {
-    private const DEFAULT_TRIM_CHARS = " \t\n\r\0\x0B";
-
     public const ARRAY_LIKE_CLASSES = [
         'ArrayIterator',
         'ArrayObject',
@@ -116,6 +114,8 @@ final class CoreExtension extends AbstractExtension
         'SplStack',
         'WeakMap',
     ];
+
+    private const DEFAULT_TRIM_CHARS = " \t\n\r\0\x0B";
 
     private array $dateFormats = ['F j, Y H:i', '%d days'];
     private array $numberFormat = [0, '.', ','];
@@ -1676,10 +1676,6 @@ final class CoreExtension extends AbstractExtension
             if (\defined($object::class.'::'.$item)) {
                 if ($isDefinedTest) {
                     return true;
-                }
-
-                if ($sandboxed) {
-                    $env->getExtension(SandboxExtension::class)->checkPropertyAllowed($object, $item, $lineno, $source);
                 }
 
                 return \constant($object::class.'::'.$item);
