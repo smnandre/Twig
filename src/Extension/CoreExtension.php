@@ -247,14 +247,14 @@ final class CoreExtension extends AbstractExtension
             // array helpers
             new TwigFilter('join', self::join(...)),
             new TwigFilter('split', self::split(...), ['needs_charset' => true]),
-            new TwigFilter('sort', self::sort(...), ['needs_environment' => true]),
+            new TwigFilter('sort', self::sort(...)),
             new TwigFilter('merge', self::merge(...)),
             new TwigFilter('batch', self::batch(...)),
             new TwigFilter('column', self::column(...)),
-            new TwigFilter('filter', self::filter(...), ['needs_environment' => true]),
-            new TwigFilter('map', self::map(...), ['needs_environment' => true]),
-            new TwigFilter('reduce', self::reduce(...), ['needs_environment' => true]),
-            new TwigFilter('find', self::find(...), ['needs_environment' => true]),
+            new TwigFilter('filter', self::filter(...)),
+            new TwigFilter('map', self::map(...)),
+            new TwigFilter('reduce', self::reduce(...)),
+            new TwigFilter('find', self::find(...)),
 
             // string/array filters
             new TwigFilter('reverse', self::reverse(...), ['needs_charset' => true]),
@@ -982,7 +982,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function sort(Environment $env, $array, ?\Closure $arrow = null): array
+    public static function sort($array, ?\Closure $arrow = null): array
     {
         if ($array instanceof \Traversable) {
             $array = iterator_to_array($array);
@@ -1838,7 +1838,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function filter(Environment $env, $array, \Closure $arrow)
+    public static function filter($array, \Closure $arrow)
     {
         if (!is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "filter" filter expects a sequence/mapping or "Traversable", got "%s".', get_debug_type($array)));
@@ -1855,7 +1855,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function find(Environment $env, $array, \Closure $arrow)
+    public static function find($array, \Closure $arrow)
     {
         if (!is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "find" filter expects a sequence or a mapping, got "%s".', get_debug_type($array)));
@@ -1873,7 +1873,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function map(Environment $env, $array, \Closure $arrow)
+    public static function map($array, \Closure $arrow)
     {
         if (!is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "map" filter expects a sequence or a mapping, got "%s".', get_debug_type($array)));
@@ -1890,7 +1890,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function reduce(Environment $env, $array, \Closure $arrow, $initial = null)
+    public static function reduce($array, \Closure $arrow, $initial = null)
     {
         if (!is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "reduce" filter expects a sequence or a mapping, got "%s".', get_debug_type($array)));
@@ -1907,7 +1907,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function arraySome(Environment $env, $array, \Closure $arrow)
+    public static function arraySome($array, \Closure $arrow)
     {
         if (!is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "has some" test expects a sequence or a mapping, got "%s".', get_debug_type($array)));
@@ -1925,7 +1925,7 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function arrayEvery(Environment $env, $array, \Closure $arrow)
+    public static function arrayEvery($array, \Closure $arrow)
     {
         if (!is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "has every" test expects a sequence or a mapping, got "%s".', get_debug_type($array)));
