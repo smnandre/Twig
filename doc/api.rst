@@ -488,7 +488,7 @@ won't be allowed and will generate a ``\Twig\Sandbox\SecurityError`` exception.
 
 .. note::
 
-    As of Twig 1.14.1 (and on Twig 3.11.2), if the ``Article`` class implements
+    As of Twig 3.14.1 (and on Twig 3.11.2), if the ``Article`` class implements
     the ``ArrayAccess`` interface, the templates will only be able to access
     the ``title`` and ``body`` attributes.
 
