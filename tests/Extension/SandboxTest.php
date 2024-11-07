@@ -41,7 +41,10 @@ class SandboxTest extends TestCase
             'some_array' => [5, 6, 7, new FooObject()],
             'array_like' => new ArrayLikeObject(),
             'magic' => new MagicObject(),
+            'recursion' => [4],
         ];
+        self::$params['recursion'][] = &self::$params['recursion'];
+        self::$params['recursion'][] = new FooObject();
 
         self::$templates = [
             '1_basic1' => '{{ obj.foo }}',
@@ -240,6 +243,7 @@ class SandboxTest extends TestCase
             'context' => ['{{ _context|join(", ") }}'],
             'spread_array_operator' => ['{{ [1, 2, ...[5, 6, 7, obj]]|join(",") }}'],
             'spread_array_operator_var' => ['{{ [1, 2, ...some_array]|join(",") }}'],
+            'recursion' => ['{{ recursion|join(", ") }}'],
         ];
     }
 
@@ -573,13 +577,13 @@ class ArrayLikeObject extends \ArrayObject
 {
     public function offsetExists($offset): bool
     {
-        throw new \BadMethodCallException('Should not be called');
+        throw new \BadMethodCallException('Should not be called.');
     }
 
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        throw new \BadMethodCallException('Should not be called');
+        throw new \BadMethodCallException('Should not be called.');
     }
 
     public function offsetSet($offset, $value): void
@@ -596,11 +600,11 @@ class MagicObject
     #[\ReturnTypeWillChange]
     public function __get($name)
     {
-        throw new \BadMethodCallException('Should not be called');
+        throw new \BadMethodCallException('Should not be called.');
     }
 
     public function __isset($name): bool
     {
-        throw new \BadMethodCallException('Should not be called');
+        throw new \BadMethodCallException('Should not be called.');
     }
 }
