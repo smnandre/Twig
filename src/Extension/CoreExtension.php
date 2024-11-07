@@ -1642,7 +1642,7 @@ final class CoreExtension extends AbstractExtension
 
         // array
         if (Template::METHOD_CALL !== $type) {
-            $arrayItem = \is_bool($item) || \is_float($item) ? (int) $item : $item;
+            $arrayItem = \is_bool($item) || \is_float($item) ? (int) $item : $item = (string) $item;
 
             if ($sandboxed && $object instanceof \ArrayAccess && !\in_array($object::class, self::ARRAY_LIKE_CLASSES, true)) {
                 try {
@@ -1652,9 +1652,11 @@ final class CoreExtension extends AbstractExtension
                 }
             }
 
-            if (((\is_array($object) || $object instanceof \ArrayObject) && (isset($object[$arrayItem]) || \array_key_exists($arrayItem, (array) $object)))
-                || ($object instanceof \ArrayAccess && isset($object[$arrayItem]))
-            ) {
+            if (match (true) {
+                \is_array($object) => \array_key_exists($arrayItem, $object),
+                $object instanceof \ArrayAccess => $object->offsetExists($arrayItem),
+                default => false,
+            }) {
                 if ($isDefinedTest) {
                     return true;
                 }
@@ -1697,6 +1699,8 @@ final class CoreExtension extends AbstractExtension
             }
         }
 
+        $item = (string) $item;
+
         if (!\is_object($object)) {
             if ($isDefinedTest) {
                 return false;
@@ -1731,12 +1735,24 @@ final class CoreExtension extends AbstractExtension
                 }
             }
 
-            if (isset($object->$item) || \array_key_exists((string) $item, (array) $object)) {
+            static $propertyCheckers = [];
+
+            if (isset($object->$item)
+                || ($propertyCheckers[$object::class][$item] ??= self::getPropertyChecker($object::class, $item))($object, $item)
+            ) {
                 if ($isDefinedTest) {
                     return true;
                 }
 
-                return isset($object->$item) ? $object->$item : ((array) $object)[(string) $item];
+                return $object->$item;
+            }
+
+            if ($object instanceof \DateTimeInterface && \in_array($item, ['date', 'timezone', 'timezone_type'], true)) {
+                if ($isDefinedTest) {
+                    return true;
+                }
+
+                return ((array) $object)[$item];
             }
 
             if (\defined($object::class.'::'.$item)) {
@@ -2098,5 +2114,28 @@ final class CoreExtension extends AbstractExtension
         */
 
         return new GetAttrExpression($args[0], $args[1], $args[2] ?? null, Template::ANY_CALL, $line);
+    }
+
+    private static function getPropertyChecker(string $class, string $property): \Closure
+    {
+        static $classReflectors = [];
+
+        $class = $classReflectors[$class] ??= new \ReflectionClass($class);
+
+        if (!$class->hasProperty($property)) {
+            static $propertyExists;
+
+            return $propertyExists ??= \Closure::fromCallable('property_exists');
+        }
+
+        $property = $class->getProperty($property);
+
+        if (!$property->isPublic()) {
+            static $false;
+
+            return $false ??= static fn () => false;
+        }
+
+        return static fn ($object) => $property->isInitialized($object);
     }
 }
