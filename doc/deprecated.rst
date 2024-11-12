@@ -183,6 +183,12 @@ Nodes
   Twig 3.15; use ``Twig\Node\Expression\Variable\AssignContextVariable``
   instead.
 
+* Node implementations that use ``echo`` or ``print`` should use ``yield``
+  instead; all Node implementations should use the
+  ``#[\Twig\Attribute\YieldReady]`` attribute on their class once they've been
+  made ready for ``yield``; the ``use_yield`` Environment option can be turned
+  on when all nodes use the ``#[\Twig\Attribute\YieldReady]`` attribute.
+
 Node Visitors
 -------------
 
