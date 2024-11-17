@@ -77,10 +77,7 @@ class NameExpression extends AbstractExpression
                     ->string($name)
                     ->raw(']) || array_key_exists(')
                     ->string($name)
-                    ->raw(', $context) ?')
-                ;
-                $compiler
-                    ->raw(' $context[')
+                    ->raw(', $context) ? $context[')
                     ->string($name)
                     ->raw('] : (function () { throw new RuntimeError(\'Variable ')
                     ->string($name)
