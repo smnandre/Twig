@@ -363,7 +363,7 @@ final class CoreExtension extends AbstractExtension
      * Cycles over a sequence.
      *
      * @param array|\ArrayAccess $values   A non-empty sequence of values
-     * @param positive-int       $position The position of the value to return in the cycle
+     * @param int<0, max>        $position The position of the value to return in the cycle
      *
      * @return mixed The value at the given position in the sequence, wrapping around as needed
      *
@@ -776,9 +776,9 @@ final class CoreExtension extends AbstractExtension
      *  {{ [1, 2, 3]|join }}
      *  {# returns 123 #}
      *
-     * @param array       $value An array
-     * @param string      $glue  The separator
-     * @param string|null $and   The separator for the last pair
+     * @param iterable|array|string|float|int|bool|null  $value An array
+     * @param string                                     $glue  The separator
+     * @param string|null                                $and   The separator for the last pair
      *
      * @internal
      */
