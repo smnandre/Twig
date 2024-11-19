@@ -337,6 +337,9 @@ Node
 Operators
 ---------
 
+* The ``.`` operator allows accessing class constants as of Twig 3.15.
+  This can be a BC break if you don't use UPPERCASE constant names.
+
 * Using ``~`` in an expression with the ``+`` or ``-`` operators without using
   parentheses to clarify precedence triggers a deprecation as of Twig 3.15 (in
   Twig 4.0, ``+`` / ``-`` will have a higher precedence than ``~``).
