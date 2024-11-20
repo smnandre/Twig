@@ -64,7 +64,9 @@ class MacroNode extends Node
             ->write(\sprintf('public function macro_%s(', $this->getAttribute('name')))
         ;
 
-        foreach ($this->getNode('arguments')->getKeyValuePairs() as $pair) {
+        /** @var ArrayExpression $arguments */
+        $arguments = $this->getNode('arguments');
+        foreach ($arguments->getKeyValuePairs() as $pair) {
             $name = $pair['key'];
             $default = $pair['value'];
             $compiler
@@ -85,7 +87,7 @@ class MacroNode extends Node
             ->indent()
         ;
 
-        foreach ($this->getNode('arguments')->getKeyValuePairs() as $pair) {
+        foreach ($arguments->getKeyValuePairs() as $pair) {
             $name = $pair['key'];
             $compiler
                 ->write('')
