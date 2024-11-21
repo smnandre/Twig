@@ -13,7 +13,7 @@
     {{ enum('App\\MyEnum').SomeCase.value }}
 
     {# get all cases of an enum #}
-    {% enum('App\\MyEnum').cases() %}
+    {% enum('App\\MyEnum').cases %}
 
     {# call any methods of the enum class #}
     {% enum('App\\MyEnum').someMethod() %}
