@@ -51,9 +51,9 @@ class ExpressionParser
     public const OPERATOR_LEFT = 1;
     public const OPERATOR_RIGHT = 2;
 
-    /** @var array<string, array{precedence: int, class: class-string<AbstractUnary>}> */
+    /** @var array<string, array{precedence: int, precedence_change?: OperatorPrecedenceChange, class: class-string<AbstractUnary>}> */
     private array $unaryOperators;
-    /** @var array<string, array{precedence: int, class: class-string<AbstractBinary>, associativity: self::OPERATOR_*}> */
+    /** @var array<string, array{precedence: int, precedence_change?: OperatorPrecedenceChange, class: class-string<AbstractBinary>, associativity: self::OPERATOR_*}> */
     private array $binaryOperators;
     private array $precedenceChanges = [];
     private bool $deprecationCheck = true;
@@ -118,7 +118,7 @@ class ExpressionParser
 
             $expr->setAttribute('operator', 'binary_'.$token->getValue());
 
-            $this->triggerPrecedenceDeprecations($expr, $token);
+            $this->triggerPrecedenceDeprecations($expr);
 
             $token = $this->parser->getCurrentToken();
         }
@@ -236,7 +236,7 @@ class ExpressionParser
             $expr->setAttribute('operator', 'unary_'.$token->getValue());
 
             if ($this->deprecationCheck) {
-                $this->triggerPrecedenceDeprecations($expr, $token);
+                $this->triggerPrecedenceDeprecations($expr);
             }
 
             return $this->parsePostfixExpression($expr);

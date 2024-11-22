@@ -26,57 +26,33 @@ use Twig\TokenParser\TokenParserInterface;
  */
 final class ExtensionSet
 {
-    /**
-     * @var ExtensionInterface[]
-     */
+    /** @var ExtensionInterface[] */
     private array $extensions;
     private bool $initialized = false;
     private bool $runtimeInitialized = false;
     private StagingExtension $staging;
 
-    /**
-     * @var TokenParserInterface[]
-     */
+    /** @var TokenParserInterface[] */
     private array $parsers;
-    /**
-     * @var NodeVisitorInterface[]
-     */
+    /** @var NodeVisitorInterface[] */
     private array $visitors;
-    /**
-     * @var array<string, TwigFilter>
-     */
+    /** @var array<string, TwigFilter> */
     private array $filters;
-    /**
-     * @var array<string, TwigFilter>
-     */
+    /** @var array<string, TwigFilter> */
     private array $dynamicFilters;
-    /**
-     * @var array<string, TwigTest>
-     */
+    /** @var array<string, TwigTest> */
     private array $tests;
-    /**
-     * @var array<string, TwigTest>
-     */
+    /** @var array<string, TwigTest> */
     private array $dynamicTests;
-    /**
-     * @var array<string, TwigFunction>
-     */
+    /** @var array<string, TwigFunction> */
     private array $functions;
-    /**
-     * @var array<string, TwigFunction>
-     */
+    /** @var array<string, TwigFunction> */
     private array $dynamicFunctions;
-    /**
-     * @var array<string, array{precedence: int, class: class-string<AbstractUnary>}>
-     */
+    /** @var array<string, array{precedence: int, class: class-string<AbstractExpression>}> */
     private array $unaryOperators;
-    /**
-     * @var array<string, array{precedence: int, class?: class-string<AbstractExpression>, associativity: ExpressionParser::OPERATOR_*}>
-     */
+    /** @var array<string, array{precedence: int, class?: class-string<AbstractExpression>, associativity: ExpressionParser::OPERATOR_*}> */
     private array $binaryOperators;
-    /**
-     * @var array<string, mixed>|null
-     */
+    /** @var array<string, mixed>|null */
     private ?array $globals = null;
     private array $functionCallbacks = [];
     private array $filterCallbacks = [];
