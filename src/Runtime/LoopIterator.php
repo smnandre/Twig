@@ -45,10 +45,12 @@ final class LoopIterator implements \Iterator
             $this->seq = new \ArrayIterator($seq);
         } elseif ($seq instanceof \IteratorAggregate) {
             do {
+                /** @var \Iterator<TKey, TValue> $seq */
                 $seq = $seq->getIterator();
             } while ($seq instanceof \IteratorAggregate);
             $this->seq = $seq;
         } elseif (is_iterable($seq)) {
+            /** @var \Iterator<TKey, TValue> $seq */
             $this->seq = $seq;
         } else {
             $this->seq = new \EmptyIterator();
