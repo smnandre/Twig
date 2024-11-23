@@ -1,6 +1,7 @@
 # 3.16.0 (2024-XX-XX)
 
  * Deprecate not passing a `Source` instance to `TokenStream`
+ * Deprecate returning `null` from `TwigFilter::getSafe()` and `TwigFunction::getSafe()`, return `[]` instead
 
 # 3.15.0 (2024-11-17)
  

@@ -319,6 +319,10 @@ Functions/Filters/Tests
   arrow functions is deprecated as of Twig 3.15; these arguments will have a
   ``\Closure`` type hint in 4.0.
 
+* Returning ``null`` from ``TwigFilter::getSafe()`` and
+  ``TwigFunction::getSafe()`` is deprecated as of Twig 3.16; return ``[]``
+  instead.
+
 Node
 ----
 
