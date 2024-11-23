@@ -1,6 +1,6 @@
 # 3.16.0 (2024-XX-XX)
 
- * n/a
+ * Deprecate not passing a `Source` instance to `TokenStream`
 
 # 3.15.0 (2024-11-17)
  

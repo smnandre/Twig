@@ -36,7 +36,7 @@ class ParserTest extends TestCase
             new Token(Token::NAME_TYPE, 'foo', 1),
             new Token(Token::BLOCK_END_TYPE, '', 1),
             new Token(Token::EOF_TYPE, '', 1),
-        ]);
+        ], new Source('', ''));
         $parser = new Parser(new Environment(new ArrayLoader()));
 
         $this->expectException(SyntaxError::class);
@@ -52,7 +52,7 @@ class ParserTest extends TestCase
             new Token(Token::NAME_TYPE, 'foobar', 1),
             new Token(Token::BLOCK_END_TYPE, '', 1),
             new Token(Token::EOF_TYPE, '', 1),
-        ]);
+        ], new Source('', ''));
         $parser = new Parser(new Environment(new ArrayLoader()));
 
         $this->expectException(SyntaxError::class);
@@ -153,7 +153,7 @@ class ParserTest extends TestCase
             new Token(Token::NAME_TYPE, 'foo', 1),
             new Token(Token::VAR_END_TYPE, '', 1),
             new Token(Token::EOF_TYPE, '', 1),
-        ]));
+        ], new Source('', '')));
 
         $p = new \ReflectionProperty($parser, 'parent');
         $p->setAccessible(true);
@@ -208,7 +208,7 @@ EOF
 
         $p = new \ReflectionProperty($parser, 'stream');
         $p->setAccessible(true);
-        $p->setValue($parser, new TokenStream([]));
+        $p->setValue($parser, new TokenStream([], new Source('', '')));
 
         return $parser;
     }
@@ -225,7 +225,7 @@ class TestTokenParser extends AbstractTokenParser
             new Token(Token::STRING_TYPE, 'base', 1),
             new Token(Token::BLOCK_END_TYPE, '', 1),
             new Token(Token::EOF_TYPE, '', 1),
-        ]));
+        ], new Source('', '')));
 
         $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
