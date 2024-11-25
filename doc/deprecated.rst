@@ -216,6 +216,12 @@ Parser
 * Passing ``null`` to ``Twig\Parser::setParent()`` is deprecated as of Twig
   3.12.
 
+Lexer
+-----
+
+* Not passing a ``Source`` instance to ``Twig\TokenStream`` constructor is
+  deprecated as of Twig 3.16.
+
 Templates
 ---------
 
