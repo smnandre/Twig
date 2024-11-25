@@ -49,7 +49,7 @@ class MacroNode extends Node
         }
 
         foreach ($arguments->getKeyValuePairs() as $pair) {
-            if ('_'.self::VARARGS_NAME.'_' === $pair['key']->getAttribute('name')) {
+            if ("\u{035C}".self::VARARGS_NAME === $pair['key']->getAttribute('name')) {
                 throw new SyntaxError(\sprintf('The argument "%s" in macro "%s" cannot be defined because the variable "%s" is reserved for arbitrary arguments.', self::VARARGS_NAME, $name, self::VARARGS_NAME), $pair['value']->getTemplateLine(), $pair['value']->getSourceContext());
             }
         }
@@ -89,9 +89,13 @@ class MacroNode extends Node
 
         foreach ($arguments->getKeyValuePairs() as $pair) {
             $name = $pair['key'];
+            $var = $name->getAttribute('name');
+            if (str_starts_with($var, "\u{035C}")) {
+                $var = substr($var, \strlen("\u{035C}"));
+            }
             $compiler
                 ->write('')
-                ->string(trim($name->getAttribute('name'), '_'))
+                ->string($var)
                 ->raw(' => ')
                 ->subcompile($name)
                 ->raw(",\n")
