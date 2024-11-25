@@ -30,7 +30,11 @@ final class TokenStream
         private array $tokens,
         private ?Source $source = null,
     ) {
-        $this->source = $source ?: new Source('', '');
+        if (null === $this->source) {
+            trigger_deprecation('twig/twig', '3.16', \sprintf('Not passing a "%s" object to "%s" constructor is deprecated.', Source::class, __CLASS__));
+
+            $this->source = new Source('', '');
+        }
     }
 
     public function __toString()
@@ -120,11 +124,6 @@ final class TokenStream
         return $this->tokens[$this->current];
     }
 
-    /**
-     * Gets the source associated with this stream.
-     *
-     * @internal
-     */
     public function getSourceContext(): Source
     {
         return $this->source;
