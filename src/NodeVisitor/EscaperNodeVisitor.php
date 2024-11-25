@@ -172,7 +172,7 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
     {
         $safe = $this->safeAnalysis->getSafe($expression);
 
-        if (null === $safe) {
+        if (!$safe) {
             if (null === $this->traverser) {
                 $this->traverser = new NodeTraverser($env, [$this->safeAnalysis]);
             }
