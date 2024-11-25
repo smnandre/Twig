@@ -28,13 +28,8 @@ final class TokenStream
      */
     public function __construct(
         private array $tokens,
-        private ?Source $source = null,
+        private Source $source,
     ) {
-        if (null === $this->source) {
-            trigger_deprecation('twig/twig', '3.16', \sprintf('Not passing a "%s" object to "%s" constructor is deprecated.', Source::class, __CLASS__));
-
-            $this->source = new Source('', '');
-        }
     }
 
     public function __toString()
