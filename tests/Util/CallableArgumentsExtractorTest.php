@@ -11,6 +11,7 @@ namespace Twig\Tests\Util;
  * file that was distributed with this source code.
  */
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twig\Error\SyntaxError;
 use Twig\Node\EmptyNode;
@@ -83,9 +84,7 @@ class CallableArgumentsExtractorTest extends TestCase
         $this->assertEquals(['arg1'], $this->getArguments('custom_static_function', __CLASS__.'::customStaticFunction', ['arg1' => 'arg1']));
     }
 
-    /**
-     * @dataProvider getGetArgumentsConversionData
-     */
+    #[DataProvider('getGetArgumentsConversionData')]
     public function testGetArgumentsConversion($arg1, $arg2)
     {
         $this->assertEquals([null], $this->getArguments('custom', eval("return fn (\$$arg1) => '';"), [$arg1 => null]));

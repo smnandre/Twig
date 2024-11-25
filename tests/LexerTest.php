@@ -491,9 +491,7 @@ bar
         $this->assertTrue($stream->isEOF());
     }
 
-    /**
-     * @dataProvider getTemplateForInlineCommentsForVariable
-     */
+    #[DataProvider('getTemplateForInlineCommentsForVariable')]
     public function testInlineCommentForVariable(string $template)
     {
         $lexer = new Lexer(new Environment(new ArrayLoader()));
@@ -524,9 +522,7 @@ bar
         }}'];
     }
 
-    /**
-     * @dataProvider getTemplateForInlineCommentsForBlock
-     */
+    #[DataProvider('getTemplateForInlineCommentsForBlock')]
     public function testInlineCommentForBlock(string $template)
     {
         $lexer = new Lexer(new Environment(new ArrayLoader()));
@@ -562,9 +558,7 @@ bar
         %}me{% endif %}'];
     }
 
-    /**
-     * @dataProvider getTemplateForInlineCommentsForComment
-     */
+    #[DataProvider('getTemplateForInlineCommentsForComment')]
     public function testInlineCommentForComment(string $template)
     {
         $lexer = new Lexer(new Environment(new ArrayLoader()));

@@ -33,7 +33,6 @@ jobs:
                   coverage: "none"
                   php-version: ${{ matrix.php-version }}
                   ini-values: memory_limit=-1
-                  tools: phpunit:11.3
 
             - name: "Add PHPUnit matcher"
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -41,7 +40,7 @@ jobs:
             - run: composer install
 
             - name: "Run tests"
-              run: phpunit
+              run: vendor/bin/phpunit
 
     extension-tests:
         needs:
