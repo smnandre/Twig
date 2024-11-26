@@ -1,5 +1,6 @@
 # 3.16.0 (2024-XX-XX)
 
+ * Fix having macro variables starting with an underscore
  * Deprecate not passing a `Source` instance to `TokenStream`
  * Deprecate returning `null` from `TwigFilter::getSafe()` and `TwigFunction::getSafe()`, return `[]` instead
 
