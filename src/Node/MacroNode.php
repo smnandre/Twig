@@ -14,7 +14,6 @@ namespace Twig\Node;
 use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 use Twig\Error\SyntaxError;
-use Twig\Markup;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\Variable\LocalVariable;
 
