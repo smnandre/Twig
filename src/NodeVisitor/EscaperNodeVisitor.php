@@ -101,14 +101,12 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
 
     private function escapeConditional(ConditionalExpression $expression, Environment $env, string $type): ConditionalExpression
     {
-        /** @var AbstractExpression $expr2 */
         $expr2 = $expression->getNode('expr2');
         if ($expr2 instanceof ConditionalExpression) {
             $expr2 = $this->escapeConditional($expr2, $env, $type);
         } else {
             $expr2 = $this->escapeExpression($expr2, $env, $type);
         }
-        /** @var AbstractExpression $expr3 */
         $expr3 = $expression->getNode('expr3');
         if ($expr3 instanceof ConditionalExpression) {
             $expr3 = $this->escapeConditional($expr3, $env, $type);
@@ -116,10 +114,7 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
             $expr3 = $this->escapeExpression($expr3, $env, $type);
         }
 
-        /** @var AbstractExpression $expr1 */
-        $expr1 = $expression->getNode('expr1');
-
-        return new ConditionalExpression($expr1, $expr2, $expr3, $expression->getTemplateLine());
+        return new ConditionalExpression($expression->getNode('expr1'), $expr2, $expr3, $expression->getTemplateLine());
     }
 
     private function escapeExpression(AbstractExpression $expression, Environment $env, string $type): AbstractExpression
