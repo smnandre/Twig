@@ -42,6 +42,8 @@ class MacroTest extends NodeTestCase
             new ConstantExpression(null, 1),
             new LocalVariable('bar', 1),
             new ConstantExpression('Foo', 1),
+            new LocalVariable('_underscore', 1),
+            new ConstantExpression(null, 1),
         ], 1);
 
         $body = new BodyNode([new TextNode('foo', 1)]);
@@ -49,12 +51,13 @@ class MacroTest extends NodeTestCase
 
         yield 'with use_yield = true' => [$node, <<<EOF
 // line 1
-public function macro_foo(\$foo = null, \$bar = "Foo", ...\$varargs): string|Markup
+public function macro_foo(\$foo = null, \$bar = "Foo", \$_underscore = null, ...\$varargs): string|Markup
 {
     \$macros = \$this->macros;
     \$context = [
         "foo" => \$foo,
         "bar" => \$bar,
+        "_underscore" => \$_underscore,
         "varargs" => \$varargs,
     ] + \$this->env->getGlobals();
 
@@ -71,12 +74,13 @@ EOF
 
         yield 'with use_yield = false' => [$node, <<<EOF
 // line 1
-public function macro_foo(\$foo = null, \$bar = "Foo", ...\$varargs): string|Markup
+public function macro_foo(\$foo = null, \$bar = "Foo", \$_underscore = null, ...\$varargs): string|Markup
 {
     \$macros = \$this->macros;
     \$context = [
         "foo" => \$foo,
         "bar" => \$bar,
+        "_underscore" => \$_underscore,
         "varargs" => \$varargs,
     ] + \$this->env->getGlobals();
 
