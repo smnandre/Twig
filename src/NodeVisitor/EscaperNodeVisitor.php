@@ -76,7 +76,7 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
         } elseif ($node instanceof PrintNode && false !== $type = $this->needEscaping()) {
             $expression = $node->getNode('expr');
             if ($expression instanceof ConditionalExpression) {
-                $node->setNode('expr', $this->escapeConditional($expression, $env, $type));
+                $this->escapeConditional($expression, $env, $type);
             } else {
                 $node->setNode('expr', $this->escapeExpression($expression, $env, $type));
             }
@@ -93,27 +93,23 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
         return $node;
     }
 
-    private function escapeConditional(ConditionalExpression $expression, Environment $env, string $type): ConditionalExpression
+    private function escapeConditional(ConditionalExpression $expression, Environment $env, string $type): void
     {
         /** @var AbstractExpression $expr2 */
         $expr2 = $expression->getNode('expr2');
         if ($expr2 instanceof ConditionalExpression) {
-            $expr2 = $this->escapeConditional($expr2, $env, $type);
+            $this->escapeConditional($expr2, $env, $type);
         } else {
-            $expr2 = $this->escapeExpression($expr2, $env, $type);
+            $expression->setNode('expr2', $this->escapeExpression($expr2, $env, $type));
         }
+
         /** @var AbstractExpression $expr3 */
         $expr3 = $expression->getNode('expr3');
         if ($expr3 instanceof ConditionalExpression) {
-            $expr3 = $this->escapeConditional($expr3, $env, $type);
+            $this->escapeConditional($expr3, $env, $type);
         } else {
-            $expr3 = $this->escapeExpression($expr3, $env, $type);
+            $expression->setNode('expr3', $this->escapeExpression($expr3, $env, $type));
         }
-
-        /** @var AbstractExpression $expr1 */
-        $expr1 = $expression->getNode('expr1');
-
-        return new ConditionalExpression($expr1, $expr2, $expr3, $expression->getTemplateLine());
     }
 
     private function escapeExpression(AbstractExpression $expression, Environment $env, string $type): AbstractExpression
