@@ -102,13 +102,7 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         } elseif ($node instanceof FilterExpression) {
             // filter expression is safe when the filter is safe
             if ($filter = $node->getAttribute('twig_callable')) {
-                $safe = $filter->getSafe($node->getNode('arguments'));
-                if (null === $safe) {
-                    trigger_deprecation('twig/twig', '3.16', 'The "%s::getSafe()" method should not return "null" anymore, return "[]" instead.', $filter::class);
-                    $safe = [];
-                }
-
-                if (!$safe) {
+                if (!$safe = $filter->getSafe($node->getNode('arguments'))) {
                     $safe = $this->intersectSafe($this->getSafe($node->getNode('node')), $filter->getPreservesSafety());
                 }
                 $this->setSafe($node, $safe);

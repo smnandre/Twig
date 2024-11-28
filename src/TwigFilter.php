@@ -44,7 +44,7 @@ final class TwigFilter extends AbstractTwigCallable
         return 'filter';
     }
 
-    public function getSafe(Node $filterArgs): ?array
+    public function getSafe(Node $filterArgs): array
     {
         if (null !== $this->options['is_safe']) {
             return $this->options['is_safe'];

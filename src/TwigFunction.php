@@ -48,7 +48,7 @@ final class TwigFunction extends AbstractTwigCallable
         return $this->options['parser_callable'];
     }
 
-    public function getSafe(Node $functionArgs): ?array
+    public function getSafe(Node $functionArgs): array
     {
         if (null !== $this->options['is_safe']) {
             return $this->options['is_safe'];
