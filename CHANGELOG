@@ -4,6 +4,7 @@
 
 # 3.16.0 (2024-11-29)
 
+ * Deprecate `ConditionalExpression` and `NullCoalesceExpression` (use `ConditionalTernary` and `NullCoalesceBinary` instead)
  * Deprecate `InlinePrint`
  * Fix having macro variables starting with an underscore
  * Deprecate not passing a `Source` instance to `TokenStream`

@@ -16,11 +16,11 @@ use Twig\Compiler;
 use Twig\Extension\CoreExtension;
 use Twig\Node\EmptyNode;
 use Twig\Node\Expression\AbstractExpression;
-use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Expression\Test\DefinedTest;
 use Twig\Node\Node;
 use Twig\TwigFilter;
@@ -57,7 +57,7 @@ class DefaultFilter extends FilterExpression
             $test = new DefinedTest(clone $node, new TwigTest('defined'), new EmptyNode(), $node->getTemplateLine());
             $false = \count($arguments) ? $arguments->getNode('0') : new ConstantExpression('', $node->getTemplateLine());
 
-            $node = new ConditionalExpression($test, $default, $false, $node->getTemplateLine());
+            $node = new ConditionalTernary($test, $default, $false, $node->getTemplateLine());
         } else {
             $node = $default;
         }
