@@ -189,6 +189,8 @@ Nodes
   made ready for ``yield``; the ``use_yield`` Environment option can be turned
   on when all nodes use the ``#[\Twig\Attribute\YieldReady]`` attribute.
 
+ * The ``InlinePrint`` class is deprecated as of Twig 3.16 with no replacement.
+
 Node Visitors
 -------------
 
