@@ -58,7 +58,6 @@ use Twig\Node\Expression\Filter\RawFilter;
 use Twig\Node\Expression\FunctionNode\EnumCasesFunction;
 use Twig\Node\Expression\FunctionNode\EnumFunction;
 use Twig\Node\Expression\GetAttrExpression;
-use Twig\Node\Expression\NullCoalesceExpression;
 use Twig\Node\Expression\ParentExpression;
 use Twig\Node\Expression\Test\ConstantTest;
 use Twig\Node\Expression\Test\DefinedTest;
@@ -326,7 +325,7 @@ final class CoreExtension extends AbstractExtension
             ],
             [
                 '?:' => ['precedence' => 5, 'class' => ElvisBinary::class, 'associativity' => ExpressionParser::OPERATOR_RIGHT],
-                '??' => ['precedence' => 5, 'class' => NullCoalesceExpression::class, 'associativity' => ExpressionParser::OPERATOR_RIGHT],
+                '??' => ['precedence' => 5, 'class' => NullCoalesceBinary::class, 'associativity' => ExpressionParser::OPERATOR_RIGHT],
                 'or' => ['precedence' => 10, 'class' => OrBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
                 'xor' => ['precedence' => 12, 'class' => XorBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
                 'and' => ['precedence' => 15, 'class' => AndBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],

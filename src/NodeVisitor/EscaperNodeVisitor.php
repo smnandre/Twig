@@ -99,10 +99,7 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
         return $node;
     }
 
-    /**
-     * @param AbstractExpression&OperatorEscapeInterface $expression
-     */
-    private function escapeConditional($expression, Environment $env, string $type): void
+    private function escapeConditional(AbstractExpression&OperatorEscapeInterface $expression, Environment $env, string $type): void
     {
         foreach ($expression->getOperandNamesToEscape() as $name) {
             $operand = $expression->getNode($name);
