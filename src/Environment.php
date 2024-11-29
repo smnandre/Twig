@@ -863,7 +863,7 @@ class Environment
     /**
      * @internal
      *
-     * @return array<string, array{precedence: int, class: class-string<AbstractUnary>}>
+     * @return array<string, array{precedence: int, precedence_change?: OperatorPrecedenceChange, class: class-string<AbstractUnary>}>
      */
     public function getUnaryOperators(): array
     {
@@ -873,7 +873,7 @@ class Environment
     /**
      * @internal
      *
-     * @return array<string, array{precedence: int, class: class-string<AbstractBinary>, associativity: ExpressionParser::OPERATOR_*}>
+     * @return array<string, array{precedence: int, precedence_change?: OperatorPrecedenceChange, class: class-string<AbstractBinary>, associativity: ExpressionParser::OPERATOR_*}>
      */
     public function getBinaryOperators(): array
     {
