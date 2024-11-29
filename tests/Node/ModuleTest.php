@@ -15,8 +15,8 @@ use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\BodyNode;
 use Twig\Node\EmptyNode;
-use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Expression\Variable\AssignContextVariable;
 use Twig\Node\Expression\Variable\AssignTemplateVariable;
 use Twig\Node\Expression\Variable\TemplateVariable;
@@ -223,7 +223,7 @@ EOF
 
         $set = new SetNode(false, new Nodes([new AssignContextVariable('foo', 4)]), new Nodes([new ConstantExpression('foo', 4)]), 4);
         $body = new BodyNode([$set]);
-        $extends = new ConditionalExpression(
+        $extends = new ConditionalTernary(
             new ConstantExpression(true, 2),
             new ConstantExpression('foo', 2),
             new ConstantExpression('foo', 2),

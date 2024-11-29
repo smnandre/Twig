@@ -13,12 +13,14 @@ namespace Twig\NodeVisitor;
 
 use Twig\Environment;
 use Twig\Node\Expression\BlockReferenceExpression;
-use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\FunctionExpression;
 use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\MacroReferenceExpression;
+use Twig\Node\Expression\MethodCallExpression;
+use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\OperatorEscapeInterface;
 use Twig\Node\Expression\ParentExpression;
 use Twig\Node\Expression\Variable\ContextVariable;
 use Twig\Node\Node;
@@ -95,10 +97,15 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         } elseif ($node instanceof ParentExpression) {
             // parent block is safe by definition
             $this->setSafe($node, ['all']);
-        } elseif ($node instanceof ConditionalExpression) {
-            // intersect safeness of both operands
-            $safe = $this->intersectSafe($this->getSafe($node->getNode('expr2')), $this->getSafe($node->getNode('expr3')));
-            $this->setSafe($node, $safe);
+        } elseif ($node instanceof OperatorEscapeInterface) {
+            // intersect safeness of operands
+            $operands = $node->getOperandNamesToEscape();
+            if (2 < \count($operands)) {
+                throw new \LogicException(\sprintf('Operators with more than 2 operands are not supported yet, got %d.', \count($operands)));
+            } elseif (2 === \count($operands)) {
+                $safe = $this->intersectSafe($this->getSafe($node->getNode($operands[0])), $this->getSafe($node->getNode($operands[1])));
+                $this->setSafe($node, $safe);
+            }
         } elseif ($node instanceof FilterExpression) {
             // filter expression is safe when the filter is safe
             if ($filter = $node->getAttribute('twig_callable')) {

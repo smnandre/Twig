@@ -19,10 +19,11 @@ use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ArrowFunctionExpression;
 use Twig\Node\Expression\Binary\AbstractBinary;
 use Twig\Node\Expression\Binary\ConcatBinary;
-use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\MacroReferenceExpression;
+use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Expression\TestExpression;
 use Twig\Node\Expression\Unary\AbstractUnary;
 use Twig\Node\Expression\Unary\NegUnary;
@@ -259,22 +260,16 @@ class ExpressionParser
     private function parseConditionalExpression($expr): AbstractExpression
     {
         while ($this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, '?')) {
-            if (!$this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, ':')) {
-                $expr2 = $this->parseExpression();
-                if ($this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, ':')) {
-                    // Ternary operator (expr ? expr2 : expr3)
-                    $expr3 = $this->parseExpression();
-                } else {
-                    // Ternary without else (expr ? expr2)
-                    $expr3 = new ConstantExpression('', $this->parser->getCurrentToken()->getLine());
-                }
-            } else {
-                // Ternary without then (expr ?: expr3)
-                $expr2 = $expr;
+            $expr2 = $this->parseExpression();
+            if ($this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, ':')) {
+                // Ternary operator (expr ? expr2 : expr3)
                 $expr3 = $this->parseExpression();
+            } else {
+                // Ternary without else (expr ? expr2)
+                $expr3 = new ConstantExpression('', $this->parser->getCurrentToken()->getLine());
             }
 
-            $expr = new ConditionalExpression($expr, $expr2, $expr3, $this->parser->getCurrentToken()->getLine());
+            $expr = new ConditionalTernary($expr, $expr2, $expr3, $this->parser->getCurrentToken()->getLine());
         }
 
         return $expr;

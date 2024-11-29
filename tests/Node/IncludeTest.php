@@ -12,8 +12,8 @@ namespace Twig\Tests\Node;
  */
 
 use Twig\Node\Expression\ArrayExpression;
-use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\IncludeNode;
 use Twig\Test\NodeTestCase;
 
@@ -46,7 +46,7 @@ yield from $this->loadTemplate("foo.twig", null, 1)->unwrap()->yield($context);
 EOF
         ];
 
-        $expr = new ConditionalExpression(
+        $expr = new ConditionalTernary(
             new ConstantExpression(true, 1),
             new ConstantExpression('foo', 1),
             new ConstantExpression('foo', 1),

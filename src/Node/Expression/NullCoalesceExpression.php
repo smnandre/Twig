@@ -14,6 +14,7 @@ namespace Twig\Node\Expression;
 use Twig\Compiler;
 use Twig\Node\EmptyNode;
 use Twig\Node\Expression\Binary\AndBinary;
+use Twig\Node\Expression\Binary\NullCoalesceBinary;
 use Twig\Node\Expression\Test\DefinedTest;
 use Twig\Node\Expression\Test\NullTest;
 use Twig\Node\Expression\Unary\NotUnary;
@@ -24,6 +25,8 @@ class NullCoalesceExpression extends ConditionalExpression
 {
     public function __construct(AbstractExpression $left, AbstractExpression $right, int $lineno)
     {
+        trigger_deprecation('twig/twig', '3.16', \sprintf('"%s" is deprecated; use "%s" instead.', __CLASS__, NullCoalesceBinary::class));
+
         $test = new DefinedTest(clone $left, new TwigTest('defined'), new EmptyNode(), $left->getTemplateLine());
         // for "block()", we don't need the null test as the return value is always a string
         if (!$left instanceof BlockReferenceExpression) {

@@ -15,6 +15,9 @@ use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Test\NodeTestCase;
 
+/**
+ * @group legacy
+ */
 class ConditionalTest extends NodeTestCase
 {
     public function testConstructor()
