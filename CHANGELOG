@@ -1,4 +1,8 @@
-# 3.16.0 (2024-XX-XX)
+# 3.17.0 (2024-XX-XX)
+
+ * n/a
+
+# 3.16.0 (2024-11-29)
 
  * Deprecate `InlinePrint`
  * Fix having macro variables starting with an underscore
