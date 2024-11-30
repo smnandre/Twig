@@ -931,10 +931,8 @@ class ExpressionParser
             $token = $stream->next();
             if (
                 Token::NAME_TYPE == $token->getType()
-                ||
-                Token::NUMBER_TYPE == $token->getType()
-                ||
-                (Token::OPERATOR_TYPE == $token->getType() && preg_match(Lexer::REGEX_NAME, $token->getValue()))
+                || Token::NUMBER_TYPE == $token->getType()
+                || (Token::OPERATOR_TYPE == $token->getType() && preg_match(Lexer::REGEX_NAME, $token->getValue()))
             ) {
                 $attribute = new ConstantExpression($token->getValue(), $token->getLine());
             } else {
@@ -949,11 +947,9 @@ class ExpressionParser
 
         if (
             $node instanceof NameExpression
-            &&
-            (
+            && (
                 null !== $this->parser->getImportedSymbol('template', $node->getAttribute('name'))
-                ||
-                '_self' === $node->getAttribute('name') && $attribute instanceof ConstantExpression
+                || '_self' === $node->getAttribute('name') && $attribute instanceof ConstantExpression
             )
         ) {
             return new MacroReferenceExpression(new TemplateVariable($node->getAttribute('name'), $node->getTemplateLine()), 'macro_'.$attribute->getAttribute('value'), $arguments, $node->getTemplateLine());

@@ -13,7 +13,6 @@
 namespace Twig\Node\Expression;
 
 use Twig\Compiler;
-use Twig\Node\Expression\OperatorEscapeInterface;
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 
 class ConditionalExpression extends AbstractExpression implements OperatorEscapeInterface

@@ -55,7 +55,6 @@ use Twig\Node\Expression\Filter\DefaultFilter;
 use Twig\Node\Expression\FunctionNode\EnumCasesFunction;
 use Twig\Node\Expression\FunctionNode\EnumFunction;
 use Twig\Node\Expression\GetAttrExpression;
-use Twig\Node\Expression\NullCoalesceExpression;
 use Twig\Node\Expression\ParentExpression;
 use Twig\Node\Expression\Test\ConstantTest;
 use Twig\Node\Expression\Test\DefinedTest;
@@ -533,8 +532,8 @@ final class CoreExtension extends AbstractExtension
      *      {# do something #}
      *    {% endif %}
      *
-     * @param \DateTimeInterface|string|int|null  $date     A date, a timestamp or null to use the current time
-     * @param \DateTimeZone|string|false|null     $timezone The target timezone, null to use the default, false to leave unchanged
+     * @param \DateTimeInterface|string|int|null $date     A date, a timestamp or null to use the current time
+     * @param \DateTimeZone|string|false|null    $timezone The target timezone, null to use the default, false to leave unchanged
      *
      * @return \DateTime|\DateTimeImmutable
      */
@@ -785,9 +784,9 @@ final class CoreExtension extends AbstractExtension
      *  {{ [1, 2, 3]|join }}
      *  {# returns 123 #}
      *
-     * @param iterable|array|string|float|int|bool|null  $value An array
-     * @param string                                     $glue  The separator
-     * @param string|null                                $and   The separator for the last pair
+     * @param iterable|array|string|float|int|bool|null $value An array
+     * @param string                                    $glue  The separator
+     * @param string|null                               $and   The separator for the last pair
      *
      * @internal
      */
