@@ -92,7 +92,7 @@ class ExpressionParser
 
     public function parseExpression($precedence = 0)
     {
-        if (func_num_args() > 1) {
+        if (\func_num_args() > 1) {
             trigger_deprecation('twig/twig', '3.15', 'Passing a second argument ($allowArrow) to "%s()" is deprecated.', __METHOD__);
         }
 
@@ -153,7 +153,7 @@ class ExpressionParser
             /** @var AbstractExpression $node */
             $node = $expr->getNode('node');
             foreach ($this->precedenceChanges as $operatorName => $changes) {
-                if (!in_array($unaryOp, $changes)) {
+                if (!\in_array($unaryOp, $changes)) {
                     continue;
                 }
                 if ($node->hasAttribute('operator') && $operatorName === $node->getAttribute('operator')) {
@@ -616,10 +616,10 @@ class ExpressionParser
     {
         $namedArguments = false;
         $definition = false;
-        if (func_num_args() > 1) {
+        if (\func_num_args() > 1) {
             $definition = func_get_arg(1);
         }
-        if (func_num_args() > 0) {
+        if (\func_num_args() > 0) {
             trigger_deprecation('twig/twig', '3.15', 'Passing arguments to "%s()" is deprecated.', __METHOD__);
             $namedArguments = func_get_arg(0);
         }

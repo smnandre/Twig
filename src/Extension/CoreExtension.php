@@ -1543,11 +1543,11 @@ final class CoreExtension extends AbstractExtension
     public static function enum(string $enum): \UnitEnum
     {
         if (!enum_exists($enum)) {
-            throw new RuntimeError(sprintf('"%s" is not an enum.', $enum));
+            throw new RuntimeError(\sprintf('"%s" is not an enum.', $enum));
         }
 
         if (!$cases = $enum::cases()) {
-            throw new RuntimeError(sprintf('"%s" is an empty enum.', $enum));
+            throw new RuntimeError(\sprintf('"%s" is an empty enum.', $enum));
         }
 
         return $cases[0];
