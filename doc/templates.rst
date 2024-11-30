@@ -612,7 +612,8 @@ exist:
 
 * ``42`` / ``42.23``: Integers and floating point numbers are created by
   writing the number down. If a dot is present the number is a float,
-  otherwise an integer.
+  otherwise an integer. Underscores can be used as digits separator to 
+  improve readability (``-3_141.592_65`` is equivalent to ``-3141.59265``).
 
 * ``["first_name", "last_name"]``: Sequences are defined by a sequence of expressions
   separated by a comma (``,``) and wrapped with squared brackets (``[]``).
