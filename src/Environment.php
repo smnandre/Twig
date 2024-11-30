@@ -54,7 +54,7 @@ class Environment
     private LoaderInterface $loader;
     private bool $debug;
     private bool $autoReload;
-    private CacheInterface|string|false $cache;
+    private CacheInterface $cache;
     private ?Lexer $lexer = null;
     private ?Parser $parser = null;
     private ?Compiler $compiler = null;
