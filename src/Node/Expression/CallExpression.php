@@ -13,7 +13,6 @@ namespace Twig\Node\Expression;
 
 use Twig\Compiler;
 use Twig\Extension\ExtensionInterface;
-use Twig\TwigCallableInterface;
 use Twig\Util\CallableArgumentsExtractor;
 use Twig\Util\ReflectionCallable;
 

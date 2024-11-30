@@ -22,6 +22,7 @@ use Twig\Error\RuntimeError;
  *
  * @template TKey
  * @template TValue
+ *
  * @implements \Iterator<TKey, TValue>
  */
 final class LoopIterator implements \Iterator

@@ -378,7 +378,7 @@ final class CoreExtension extends AbstractExtension
                 throw new RuntimeError('The "cycle" function expects an array or "ArrayAccess" as first argument.');
             }
 
-            if (!\is_countable($values)) {
+            if (!is_countable($values)) {
                 throw new RuntimeError('The "cycle" function expects a countable sequence as first argument.');
             }
 
@@ -504,7 +504,6 @@ final class CoreExtension extends AbstractExtension
      * Returns a formatted string.
      *
      * @param string|null $format
-     * @param ...$values
      *
      * @internal
      */

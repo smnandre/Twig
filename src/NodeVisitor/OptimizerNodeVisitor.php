@@ -58,7 +58,7 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
     public function __construct(
         private int $optimizers = -1,
     ) {
-        if ($optimizers > (self::OPTIMIZE_FOR)) {
+        if ($optimizers > self::OPTIMIZE_FOR) {
             throw new \InvalidArgumentException(\sprintf('Optimizer mode "%s" is not valid.', $optimizers));
         }
     }

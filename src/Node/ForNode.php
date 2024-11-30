@@ -60,7 +60,7 @@ class ForNode extends Node
         }
 
         $compiler
-            ->write("foreach (\$iterator as ")
+            ->write('foreach ($iterator as ')
             ->subcompile($this->getNode('key_target'))
             ->raw(' => ')
             ->subcompile($this->getNode('value_target'))

@@ -33,7 +33,7 @@ class SetNode extends Node implements NodeCaptureInterface
         $safe = false;
         if ($capture) {
             $safe = true;
-            if ($values instanceof Nodes && !count($values)) {
+            if ($values instanceof Nodes && !\count($values)) {
                 $values = new ConstantExpression('', $values->getTemplateLine());
                 $capture = false;
             } elseif ($values instanceof TextNode) {

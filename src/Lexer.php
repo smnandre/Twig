@@ -433,7 +433,7 @@ class Lexer
 
             if (isset(self::SPECIAL_CHARS[$nextChar])) {
                 $result .= self::SPECIAL_CHARS[$nextChar];
-            } elseif ($nextChar === '\\' || $nextChar === $quoteType) {
+            } elseif ('\\' === $nextChar || $nextChar === $quoteType) {
                 $result .= $nextChar;
             } elseif ('#' === $nextChar && $i + 1 < $length && '{' === $str[$i + 1]) {
                 $result .= '#{';

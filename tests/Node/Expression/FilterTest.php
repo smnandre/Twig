@@ -114,7 +114,7 @@ class FilterTest extends NodeTestCase
 
         // from extension
         $node = self::createFilter($environment, $string, 'foo');
-        $tests[] = [$node, \sprintf('$this->extensions[\'%s\']->foo("abc")', get_class(self::createExtension())), $environment];
+        $tests[] = [$node, \sprintf('$this->extensions[\'%s\']->foo("abc")', \get_class(self::createExtension())), $environment];
 
         $node = self::createFilter($environment, $string, 'foobar');
         $tests[] = [$node, '$this->env->getFilter(\'foobar\')->getCallable()("abc")', $environment];

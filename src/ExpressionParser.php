@@ -22,7 +22,6 @@ use Twig\Node\Expression\Binary\ConcatBinary;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\MacroReferenceExpression;
-use Twig\Node\Expression\NameExpression;
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Expression\TestExpression;
 use Twig\Node\Expression\Unary\AbstractUnary;
@@ -782,7 +781,7 @@ class ExpressionParser
             $name = null;
             if (($token = $stream->nextIf(Token::OPERATOR_TYPE, '=')) || ($token = $stream->nextIf(Token::PUNCTUATION_TYPE, ':'))) {
                 if (!$value instanceof ContextVariable) {
-                    throw new SyntaxError(\sprintf('A parameter name must be a string, "%s" given.', \get_class($value)), $token->getLine(), $stream->getSourceContext());
+                    throw new SyntaxError(\sprintf('A parameter name must be a string, "%s" given.', $value::class), $token->getLine(), $stream->getSourceContext());
                 }
                 $name = $value->getAttribute('name');
                 $value = $this->parseExpression();
@@ -830,8 +829,7 @@ class ExpressionParser
 
         if (
             $node instanceof ContextVariable
-            &&
-            (
+            && (
                 null !== $this->parser->getImportedSymbol('template', $node->getAttribute('name'))
                 || '_self' === $node->getAttribute('name') && $attribute instanceof ConstantExpression
             )

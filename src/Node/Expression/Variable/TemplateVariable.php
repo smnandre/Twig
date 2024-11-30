@@ -26,9 +26,9 @@ final class TemplateVariable extends AbstractExpression
             throw new SyntaxError(\sprintf('You cannot assign a value to "%s".', $name), $lineno);
         }
 
-        if (null !== $name && (is_int($name) || ctype_digit($name))) {
+        if (null !== $name && (\is_int($name) || ctype_digit($name))) {
             $name = (int) $name;
-        } elseif (in_array($name, self::RESERVED_NAMES)) {
+        } elseif (\in_array($name, self::RESERVED_NAMES)) {
             $name = "\u{035C}".$name;
         }
 

@@ -13,7 +13,6 @@ namespace Twig\Node\Expression\Variable;
 
 use Twig\Compiler;
 use Twig\Error\SyntaxError;
-use Twig\Node\Expression\Variable\ContextVariable;
 
 final class AssignContextVariable extends ContextVariable
 {
