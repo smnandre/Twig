@@ -197,7 +197,7 @@ class LexerTest extends TestCase
             EOF,
             "\x6",
         ];
-        yield  [
+        yield [
             <<<'EOF'
             {{ '\065\x64' }}
             EOF,
