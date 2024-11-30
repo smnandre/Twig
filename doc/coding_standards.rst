@@ -88,20 +88,33 @@ standards:
     [1, 2, 3]
     {'name': 'Fabien'}
 
+* Do not put any spaces before and after ``=`` in macro argument declarations:
+
+  .. code-block:: twig
+
+    {% macro html_input(class="input") %}
+
+* Put exactly one space after the ``:`` sign in macro argument declarations:
+
+  .. code-block:: twig
+
+    {% macro html_input(class: "input") %}
+
 * Use snake case for all variable names (provided by the application and
-  created in templates):
+  created in templates), function/filter/test names, argument names and named
+  arguments:
 
   .. code-block:: twig
 
     {% set name = 'Fabien' %}
     {% set first_name = 'Fabien' %}
 
-* Use snake case for all function/filter/test names:
-
-  .. code-block:: twig
-
     {{ 'Fabien Potencier'|to_lower_case }}
     {{ generate_random_number() }}
+
+    {% macro html_input(class_name) %}
+
+    {{ html_input(class_name: 'pwd') }}
 
 * Indent your code inside tags (use the same indentation as the one used for
   the target language of the rendered template):

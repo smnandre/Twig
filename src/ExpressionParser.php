@@ -145,7 +145,7 @@ class ExpressionParser
             /** @var AbstractExpression $node */
             $node = $expr->getNode('node');
             foreach ($this->precedenceChanges as $operatorName => $changes) {
-                if (!in_array($unaryOp, $changes)) {
+                if (!\in_array($unaryOp, $changes)) {
                     continue;
                 }
                 if ($node->hasAttribute('operator') && $operatorName === $node->getAttribute('operator')) {
