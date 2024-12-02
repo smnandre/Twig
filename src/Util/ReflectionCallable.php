@@ -77,7 +77,7 @@ final class ReflectionCallable
         return $this->reflector;
     }
 
-    public function getCallable(): \Closure|string|array|null
+    public function getCallable(): \Closure|string|array
     {
         return $this->callable;
     }

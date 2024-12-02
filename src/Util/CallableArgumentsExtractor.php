@@ -39,6 +39,7 @@ final class CallableArgumentsExtractor
      */
     public function extractArguments(Node $arguments): array
     {
+        /** @var array<int|string, Node> $extractedArguments */
         $extractedArguments = [];
         $extractedArgumentNameMap = [];
         $named = false;
