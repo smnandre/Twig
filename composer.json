@@ -5,6 +5,7 @@
     "keywords": ["templating"],
     "homepage": "https://twig.symfony.com",
     "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Fabien Potencier",
@@ -30,8 +31,8 @@
     },
     "require-dev": {
         "psr/container": "^1.0|^2.0",
-        "phpstan/phpstan": "^2.0",
-        "phpunit/phpunit": "^11.4"
+        "phpstan/phpstan": "^2.0@stable",
+        "phpunit/phpunit": "^11.4@stable"
     },
     "autoload": {
         "psr-4" : {
