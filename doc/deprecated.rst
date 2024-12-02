@@ -193,11 +193,11 @@ Nodes
    replacement.
 
  * The ``Twig\Node\Expression\NullCoalesceExpression`` class is deprecated as
-   of Twig 3.16, use ``Twig\Node\Expression\Binary\NullCoalesceBinary``
+   of Twig 3.17, use ``Twig\Node\Expression\Binary\NullCoalesceBinary``
    instead.
 
  * The ``Twig\Node\Expression\ConditionalExpression`` class is deprecated as of
-   Twig 3.16, use ``Twig\Node\Expression\Ternary\ConditionalTernary`` instead.
+   Twig 3.17, use ``Twig\Node\Expression\Ternary\ConditionalTernary`` instead.
 
 Node Visitors
 -------------
