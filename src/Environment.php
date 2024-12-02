@@ -371,6 +371,7 @@ class Environment
 
             if (!$this->isAutoReload() || $this->isTemplateFresh($name, $this->cache->getTimestamp($key))) {
                 $this->cache->load($key);
+                /** @var class-string $cls -- to reset `class_exists($cls, false)` result for PHPStan */
             }
 
             if (!class_exists($cls, false)) {
@@ -379,6 +380,7 @@ class Environment
                 if (!isset($this->hotCache[$name])) {
                     $this->cache->write($key, $content);
                     $this->cache->load($key);
+                    /** @var class-string $cls -- to reset `class_exists($cls, false)` result for PHPStan */
                 }
 
                 if (!class_exists($mainCls, false)) {

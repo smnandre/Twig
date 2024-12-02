@@ -152,6 +152,9 @@ class Parser
         }
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function subparse($test, bool $dropNeedle = false): Node
     {
         $lineno = $this->getCurrentToken()->getLine();
@@ -362,7 +365,7 @@ class Parser
         // we need to discard the wrapping "Node" for the "body" node
         $nested = $nested || !$node instanceof Nodes;
         foreach ($node as $k => $n) {
-            if (null !== $n && null === $this->filterBodyNodes($n, $nested)) {
+            if (null === $this->filterBodyNodes($n, $nested)) {
                 $node->removeNode($k);
             }
         }

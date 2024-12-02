@@ -1199,7 +1199,7 @@ final class CoreExtension extends AbstractExtension
             return mb_strlen($thing, $charset);
         }
 
-        if (is_countable($thing) || $thing instanceof \SimpleXMLElement) {
+        if (is_countable($thing)) {
             return \count($thing);
         }
 
