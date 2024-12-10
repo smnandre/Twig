@@ -1,5 +1,6 @@
 # 3.17.0 (2024-XX-XX)
 
+ * Fix ArrayAccess with objects as keys
  * Support underscores in number literals
  * Deprecate `ConditionalExpression` and `NullCoalesceExpression` (use `ConditionalTernary` and `NullCoalesceBinary` instead)
 
