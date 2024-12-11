@@ -1,6 +1,6 @@
 # 3.17.1 (2024-XX-XX)
 
- * n/a
+ * Fix the Elvis operator when used as '? :' instead of '?:'
 
 # 3.17.0 (2024-12-10)
 
