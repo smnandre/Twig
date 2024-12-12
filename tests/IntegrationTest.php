@@ -77,6 +77,16 @@ class TwigTestFoo implements \Iterator
         return 'foo';
     }
 
+    public function getEmpty()
+    {
+        return '';
+    }
+
+    public function getNull()
+    {
+        return null;
+    }
+
     public function getSelf()
     {
         return $this;
