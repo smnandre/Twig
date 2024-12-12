@@ -13,8 +13,10 @@ Twig supports the ?? operator
 {{ nope ?? (nada ?? 'OK') }}
 {{ 1 + (nope ?? (nada ?? 2)) }}
 {{ 1 + (nope ?? 3) + (nada ?? 2) }}
+{{ obj.null() ?? 'OK' }}
+{{ obj.empty() ?? 'KO' }}
 --DATA--
-return ['bar' => 'OK', 'foo' => ['bar' => 'OK']]
+return ['bar' => 'OK', 'foo' => ['bar' => 'OK'], 'obj' => new Twig\Tests\TwigTestFoo()]
 --EXPECT--
 OK
 OK
@@ -28,3 +30,4 @@ OK
 OK
 3
 6
+OK
