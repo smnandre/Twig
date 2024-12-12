@@ -1,4 +1,8 @@
-# 3.17.1 (2024-XX-XX)
+# 3.17.2 (2024-XX-XX)
+
+ * n/a
+
+# 3.17.1 (2024-12-12)
 
  * Fix the null coalescing operator when the test returns null
  * Fix the Elvis operator when used as '? :' instead of '?:'
