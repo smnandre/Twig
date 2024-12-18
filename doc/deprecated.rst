@@ -259,12 +259,12 @@ Sandbox
   Before::
 
     {% sandbox %}
-      {% include 'user_defined.twig' %}
+      {% include 'user_defined.html.twig' %}
     {% endsandbox %}
 
   After::
 
-    {{ include('user_defined.twig', sandboxed: true) }}
+    {{ include('user_defined.html.twig', sandboxed: true) }}
 
 Testing Utilities
 -----------------

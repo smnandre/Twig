@@ -12,7 +12,7 @@ template, when sandboxing is not enabled globally for the Twig environment:
 .. code-block:: twig
 
     {% sandbox %}
-        {% include 'user.html' %}
+        {% include 'user.html.twig' %}
     {% endsandbox %}
 
 .. warning::
