@@ -377,7 +377,7 @@ and return the rendered content of that template into the current one:
 
 .. code-block:: twig
 
-    {{ include('sidebar.html') }}
+    {{ include('sidebar.html.twig') }}
 
 By default, included templates have access to the same context as the template
 which includes them. This means that any variable defined in the main template
@@ -386,10 +386,10 @@ will be available in the included template too:
 .. code-block:: twig
 
     {% for box in boxes %}
-        {{ include('render_box.html') }}
+        {{ include('render_box.html.twig') }}
     {% endfor %}
 
-The included template ``render_box.html`` is able to access the ``box`` variable.
+The included template ``render_box.html.twig`` is able to access the ``box`` variable.
 
 The name of the template depends on the template loader. For instance, the
 ``\Twig\Loader\FilesystemLoader`` allows you to access other templates by giving the
@@ -397,7 +397,7 @@ filename. You can access templates in subdirectories with a slash:
 
 .. code-block:: twig
 
-    {{ include('sections/articles/sidebar.html') }}
+    {{ include('sections/articles/sidebar.html.twig') }}
 
 This behavior depends on the application embedding Twig.
 
@@ -411,7 +411,7 @@ override.
 
 It's easier to understand the concept by starting with an example.
 
-Let's define a base template, ``base.html``, which defines an HTML skeleton
+Let's define a base template, ``base.html.twig``, which defines an HTML skeleton
 document that might be used for a two-column page:
 
 .. code-block:: html+twig
@@ -443,7 +443,7 @@ A child template might look like this:
 
 .. code-block:: html+twig
 
-    {% extends "base.html" %}
+    {% extends "base.html.twig" %}
 
     {% block title %}Index{% endblock %}
     {% block head %}

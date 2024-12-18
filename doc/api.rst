@@ -46,7 +46,7 @@ Rendering Templates
 To load a template from a Twig environment, call the ``load()`` method which
 returns a ``\Twig\TemplateWrapper`` instance::
 
-    $template = $twig->load('index.html');
+    $template = $twig->load('index.html.twig');
 
 To render the template with some variables, call the ``render()`` method::
 
@@ -58,7 +58,7 @@ To render the template with some variables, call the ``render()`` method::
 
 You can also load and render the template in one fell swoop::
 
-    echo $twig->render('index.html', ['the' => 'variables', 'go' => 'here']);
+    echo $twig->render('index.html.twig', ['the' => 'variables', 'go' => 'here']);
 
 If a template defines blocks, they can be rendered individually via the
 ``renderBlock()`` call::
@@ -177,7 +177,7 @@ methods act on the "main" namespace)::
 Namespaced templates can be accessed via the special
 ``@namespace_name/template_path`` notation::
 
-    $twig->render('@admin/index.html', []);
+    $twig->render('@admin/index.html.twig', []);
 
 ``\Twig\Loader\FilesystemLoader`` supports absolute and relative paths. Using relative
 paths is preferred as it makes the cache keys independent of the project root
@@ -198,11 +198,11 @@ the directory might be different from the one used on production servers)::
 array of strings bound to template names::
 
     $loader = new \Twig\Loader\ArrayLoader([
-        'index.html' => 'Hello {{ name }}!',
+        'index.html.twig' => 'Hello {{ name }}!',
     ]);
     $twig = new \Twig\Environment($loader);
 
-    echo $twig->render('index.html', ['name' => 'Fabien']);
+    echo $twig->render('index.html.twig', ['name' => 'Fabien']);
 
 This loader is very useful for unit testing. It can also be used for small
 projects where storing all templates in a single PHP file might make sense.
@@ -221,11 +221,11 @@ projects where storing all templates in a single PHP file might make sense.
 ``\Twig\Loader\ChainLoader`` delegates the loading of templates to other loaders::
 
     $loader1 = new \Twig\Loader\ArrayLoader([
-        'base.html' => '{% block content %}{% endblock %}',
+        'base.html.twig' => '{% block content %}{% endblock %}',
     ]);
     $loader2 = new \Twig\Loader\ArrayLoader([
-        'index.html' => '{% extends "base.html" %}{% block content %}Hello {{ name }}{% endblock %}',
-        'base.html'  => 'Will never be loaded',
+        'index.html.twig' => '{% extends "base.html.twig" %}{% block content %}Hello {{ name }}{% endblock %}',
+        'base.html.twig'  => 'Will never be loaded',
     ]);
 
     $loader = new \Twig\Loader\ChainLoader([$loader1, $loader2]);
@@ -233,8 +233,8 @@ projects where storing all templates in a single PHP file might make sense.
     $twig = new \Twig\Environment($loader);
 
 When looking for a template, Twig tries each loader in turn and returns as soon
-as the template is found. When rendering the ``index.html`` template from the
-above example, Twig will load it with ``$loader2`` but the ``base.html``
+as the template is found. When rendering the ``index.html.twig`` template from the
+above example, Twig will load it with ``$loader2`` but the ``base.html.twig``
 template will be loaded from ``$loader1``.
 
 .. note::
