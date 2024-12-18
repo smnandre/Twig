@@ -40,15 +40,18 @@ templates from a database or other resources.
     the evaluated templates. For such a need, you can use any available PHP
     cache library.
 
-Rendering Templates
--------------------
+Loading Templates
+-----------------
 
-To load a template from a Twig environment, call the ``load()`` method which
+To load a template, call the ``load()`` method on a Twig environment which
 returns a ``\Twig\TemplateWrapper`` instance::
 
     $template = $twig->load('index.html.twig');
 
-To render the template with some variables, call the ``render()`` method::
+Rendering Templates
+-------------------
+
+To render a template with some variables, call the ``render()`` method::
 
     echo $template->render(['the' => 'variables', 'go' => 'here']);
 
@@ -56,7 +59,7 @@ To render the template with some variables, call the ``render()`` method::
 
     The ``display()`` method is a shortcut to output the rendered template.
 
-You can also load and render the template in one fell swoop::
+You can also load and render the template directly via the Environment::
 
     echo $twig->render('index.html.twig', ['the' => 'variables', 'go' => 'here']);
 
@@ -64,6 +67,23 @@ If a template defines blocks, they can be rendered individually via the
 ``renderBlock()`` call::
 
     echo $template->renderBlock('block_name', ['the' => 'variables', 'go' => 'here']);
+
+Streaming Templates
+-------------------
+
+.. versionadded:: 3.18.0
+
+To stream a template, call the ``stream()`` method`::
+
+    $template->stream(['the' => 'variables', 'go' => 'here']);
+
+To stream a specific template block, call the ``streamBlock()`` method::
+
+    $template->streamBlock('block_name', ['the' => 'variables', 'go' => 'here']);
+
+.. note::
+
+    The ``stream()`` and ``streamBlock()`` methods return an iterable.
 
 .. _environment_options:
 
