@@ -57,6 +57,14 @@ final class EscaperExtension extends AbstractExtension
         ];
     }
 
+    public function getLastModified(): int
+    {
+        return max(
+            parent::getLastModified(),
+            filemtime((new \ReflectionClass(EscaperRuntime::class))->getFileName()),
+        );
+    }
+
     /**
      * @deprecated since Twig 3.10
      */
