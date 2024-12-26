@@ -41,8 +41,13 @@ There are two kinds of delimiters: ``{% ... %}`` and ``{{ ... }}``. The first
 one is used to execute statements such as for-loops, the latter outputs the
 result of an expression.
 
-IDEs Integration
-----------------
+.. tip::
+
+    To experiment with Twig, you can use the `Twig Playground
+    <https://twig.symfony.com/play>`_.
+
+Third-party Integrations
+------------------------
 
 Many IDEs support syntax highlighting and auto-completion for Twig:
 
@@ -62,9 +67,6 @@ Many IDEs support syntax highlighting and auto-completion for Twig:
 * *Visual Studio Code* via the `Twig pack`_, `Modern Twig`_ or `Twiggy`_
 
 You might also be interested in:
-
-* `TwigFiddle`_: an online service that allows you to execute Twig templates
-  from a browser; it supports all versions of Twig
 
 * `Twig Language Server`_: provides some language features like syntax
   highlighting, diagnostics, auto complete, ...
@@ -1138,7 +1140,6 @@ Twig can be extended. If you want to create your own extensions, read the
 .. _`web-mode.el`:                          https://web-mode.org/
 .. _`regular expressions`:                  https://www.php.net/manual/en/pcre.pattern.php
 .. _`PHP-twig for atom`:                    https://github.com/reesef/php-twig
-.. _`TwigFiddle`:                           https://twigfiddle.com/
 .. _`TwigQI`:                               https://github.com/alisqi/TwigQI
 .. _`TwigStan`:                             https://github.com/twigstan/twigstan
 .. _`Twig pack`:                            https://marketplace.visualstudio.com/items?itemName=bajdzis.vscode-twig-pack
