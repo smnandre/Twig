@@ -436,7 +436,7 @@ final class ExtensionSet
         foreach ($extension->getFilters() as $filter) {
             $this->filters[$name = $filter->getName()] = $filter;
             if (str_contains($name, '*')) {
-                $this->dynamicFilters['#^'.str_replace('\\*', '(.*?)', preg_quote($name, '#')).'$#'] = $filter;
+                $this->dynamicFilters['#^'.str_replace('\\*', '(.*?)', preg_quote($name)).'$#'] = $filter;
             }
         }
 
@@ -444,7 +444,7 @@ final class ExtensionSet
         foreach ($extension->getFunctions() as $function) {
             $this->functions[$name = $function->getName()] = $function;
             if (str_contains($name, '*')) {
-                $this->dynamicFunctions['#^'.str_replace('\\*', '(.*?)', preg_quote($name, '#')).'$#'] = $function;
+                $this->dynamicFunctions['#^'.str_replace('\\*', '(.*?)', preg_quote($name)).'$#'] = $function;
             }
         }
 
@@ -452,7 +452,7 @@ final class ExtensionSet
         foreach ($extension->getTests() as $test) {
             $this->tests[$name = $test->getName()] = $test;
             if (str_contains($name, '*')) {
-                $this->dynamicTests['#^'.str_replace('\\*', '(.*?)', preg_quote($name, '#')).'$#'] = $test;
+                $this->dynamicTests['#^'.str_replace('\\*', '(.*?)', preg_quote($name)).'$#'] = $test;
             }
         }
 
