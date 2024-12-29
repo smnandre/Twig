@@ -1,4 +1,4 @@
-# 3.18.0 (2024-XX-XX)
+# 3.18.0 (2024-12-29)
 
  * Fix unary operator precedence change
  * Ignore `SyntaxError` exceptions from undefined handlers when using the `guard` tag
