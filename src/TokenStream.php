@@ -37,6 +37,9 @@ final class TokenStream
         return implode("\n", $this->tokens);
     }
 
+    /**
+     * @return void
+     */
     public function injectTokens(array $tokens)
     {
         $this->tokens = array_merge(\array_slice($this->tokens, 0, $this->current), $tokens, \array_slice($this->tokens, $this->current));

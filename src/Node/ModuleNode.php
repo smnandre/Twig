@@ -57,6 +57,9 @@ final class ModuleNode extends Node
         $this->setSourceContext($source);
     }
 
+    /**
+     * @return void
+     */
     public function setIndex($index)
     {
         $this->setAttribute('index', $index);
