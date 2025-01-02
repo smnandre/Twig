@@ -57,6 +57,9 @@ final class ModuleNode extends Node
         $this->setSourceContext($source);
     }
 
+    /**
+     * @return void
+     */
     public function setIndex($index)
     {
         $this->setAttribute('index', $index);
@@ -71,7 +74,7 @@ final class ModuleNode extends Node
         }
     }
 
-    protected function compileTemplate(Compiler $compiler)
+    protected function compileTemplate(Compiler $compiler): void
     {
         if (!$this->getAttribute('index')) {
             $compiler->write('<?php');
@@ -100,7 +103,7 @@ final class ModuleNode extends Node
         $this->compileClassFooter($compiler);
     }
 
-    protected function compileGetParent(Compiler $compiler)
+    protected function compileGetParent(Compiler $compiler): void
     {
         if (!$this->hasNode('parent')) {
             return;
@@ -135,7 +138,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileClassHeader(Compiler $compiler)
+    protected function compileClassHeader(Compiler $compiler): void
     {
         $compiler
             ->write("\n\n")
@@ -173,7 +176,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileConstructor(Compiler $compiler)
+    protected function compileConstructor(Compiler $compiler): void
     {
         $compiler
             ->write("public function __construct(Environment \$env)\n", "{\n")
@@ -312,7 +315,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileDisplay(Compiler $compiler)
+    protected function compileDisplay(Compiler $compiler): void
     {
         $compiler
             ->write("protected function doDisplay(array \$context, array \$blocks = []): iterable\n", "{\n")
@@ -359,7 +362,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileClassFooter(Compiler $compiler)
+    protected function compileClassFooter(Compiler $compiler): void
     {
         $compiler
             ->subcompile($this->getNode('class_end'))
@@ -368,12 +371,12 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileMacros(Compiler $compiler)
+    protected function compileMacros(Compiler $compiler): void
     {
         $compiler->subcompile($this->getNode('macros'));
     }
 
-    protected function compileGetTemplateName(Compiler $compiler)
+    protected function compileGetTemplateName(Compiler $compiler): void
     {
         $compiler
             ->write("/**\n")
@@ -389,7 +392,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileIsTraitable(Compiler $compiler)
+    protected function compileIsTraitable(Compiler $compiler): void
     {
         // A template can be used as a trait if:
         //   * it has no parent
@@ -431,7 +434,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileDebugInfo(Compiler $compiler)
+    protected function compileDebugInfo(Compiler $compiler): void
     {
         $compiler
             ->write("/**\n")
@@ -445,7 +448,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileGetSourceContext(Compiler $compiler)
+    protected function compileGetSourceContext(Compiler $compiler): void
     {
         $compiler
             ->write("public function getSourceContext(): Source\n", "{\n")
@@ -462,7 +465,7 @@ final class ModuleNode extends Node
         ;
     }
 
-    protected function compileLoadTemplate(Compiler $compiler, $node, $var)
+    protected function compileLoadTemplate(Compiler $compiler, $node, $var): void
     {
         if ($node instanceof ConstantExpression) {
             $compiler

@@ -264,6 +264,9 @@ class Parser
         $this->traits[] = $trait;
     }
 
+    /**
+     * @return void
+     */
     public function embedTemplate(ModuleNode $template)
     {
         $template->setIndex(mt_rand());
