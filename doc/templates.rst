@@ -194,7 +194,7 @@ filters.
     .. code-block:: twig
 
         {{ -1|abs }} {# returns -1 #}
-        {{ -1**0 }} {% returns -1 %}
+        {{ -1**0 }} {# returns -1 #}
 
         {# as it is equivalent to #}
 
@@ -206,7 +206,7 @@ filters.
     .. code-block:: twig
 
         {{ (-1)|abs }} {# returns 1 as expected #}
-        {{ (-1)**0 }} {% returns 1 %}
+        {{ (-1)**0 }} {# returns 1 as expected #}
 
 Functions
 ---------
