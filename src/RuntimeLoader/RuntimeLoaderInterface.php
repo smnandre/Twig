@@ -21,7 +21,11 @@ interface RuntimeLoaderInterface
     /**
      * Creates the runtime implementation of a Twig element (filter/function/test).
      *
-     * @return object|null The runtime instance or null if the loader does not know how to create the runtime for this class
+     * @template TRuntime of object
+     *
+     * @param class-string<TRuntime> $class A runtime class name
+     *
+     * @return TRuntime|null The runtime instance or null if the loader does not know how to create the runtime for this class
      */
     public function load(string $class): ?object;
 }
