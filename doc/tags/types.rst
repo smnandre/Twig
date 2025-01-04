@@ -8,6 +8,13 @@
 
 The ``types`` tag declares the types of template variables.
 
+.. note::
+
+    The types declared in a template are local to that template and must not be
+    propagated to included templates. This is because a template can be
+    included from multiple different places, each potentially having different
+    variable types.
+
 To do this, specify a :ref:`mapping <twig-expressions>` of names to their types
 as strings.
 
