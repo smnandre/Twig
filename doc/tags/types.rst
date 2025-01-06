@@ -15,9 +15,6 @@ The ``types`` tag declares the types of template variables.
     included from multiple different places, each potentially having different
     variable types.
 
-To do this, specify a :ref:`mapping <twig-expressions>` of names to their types
-as strings.
-
 Here is how to declare that ``is_correct`` is a boolean, while ``score`` is a
 number (see note below):
 
